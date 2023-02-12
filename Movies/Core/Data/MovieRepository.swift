@@ -13,6 +13,8 @@ protocol MovieRepositoryProtocol {
     func getPopularMovies(completion: @escaping (Result<[MovieModel], Error>) -> Void)
     
     func getUpcomingMovies(completion: @escaping (Result<[MovieModel], Error>) -> Void)
+    
+    func getDetailMovie(completion: @escaping (Result<DetailMovieModel, Error>) -> Void, idMovie: String)
 }
 
 final class MovieRepository: NSObject {
@@ -60,4 +62,18 @@ extension MovieRepository: MovieRepositoryProtocol {
         }
     }
     
+    func getDetailMovie(
+        completion: @escaping (Result<DetailMovieModel, Error>) -> Void,
+        idMovie: String
+    ) {
+        self.remote.getDetailMovie(result: { remoteResponse in
+            switch remoteResponse {
+            case .success(let movieResponse):
+                let resultList = DetailMovieModel.mapDetailMovieResponseToDomainsinput(input: movieResponse)
+                completion(.success(resultList))
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }, idMovie: idMovie)
+    }
 }

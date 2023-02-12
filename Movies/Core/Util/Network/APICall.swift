@@ -53,6 +53,8 @@ enum EndPoints {
         case upcoming
         /// Endpoint for retrieving popular movies
         case popular
+        /// Endpoint for retrieving detail movie
+        case detail(id: String)
     
         /// The URL associated with the endpoint
         var url: String {
@@ -61,6 +63,8 @@ enum EndPoints {
                     return "\(API.baseURL)upcoming?api_key=\(API.apiKey)"
                 case .popular:
                     return "\(API.baseURL)popular?api_key=\(API.apiKey)"
+                case .detail(let id):
+                    return "\(API.baseURL)\(id)?api_key=\(API.apiKey)"
             }
         }
     }

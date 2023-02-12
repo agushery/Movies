@@ -12,6 +12,7 @@ import SwiftUI
 class HomePresenter: ObservableObject {
     
     private var homeUseCase: HomeUseCase
+    private var router = HomeRouter()
     
     @Published var popularMovies: [MovieModel] = []
     @Published var upcomingMovies: [MovieModel] = []
@@ -68,5 +69,13 @@ extension HomePresenter {
 
 // MARK: - Link Builder
 extension HomePresenter {
-
+    
+    func linkBuilder<Content: View>(
+        idMovie: String,
+        @ViewBuilder content: () -> Content
+    ) -> some View {
+      NavigationLink(
+        destination: router.makeDetailView(id: idMovie)) { content() }
+    }
+    
 }

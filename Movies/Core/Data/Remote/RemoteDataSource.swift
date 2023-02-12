@@ -11,6 +11,7 @@ import Foundation
 protocol RemoteDataSource: AnyObject {
     func getPopularMovies(result: @escaping (Result<[MovieResponse], URLError>) -> Void)
     func getUpcomingMovies(result: @escaping (Result<[MovieResponse], URLError>) -> Void)
+    func getDetailMovie(result: @escaping (Result<DetailMovieResponse, URLError>) -> Void, idMovie: String)
 }
 
 final class RemoteDataSourceImpl: NSObject {
@@ -39,7 +40,7 @@ extension RemoteDataSourceImpl: RemoteDataSource {
                       response.statusCode == 200 {
                 let decoder = JSONDecoder()
                 do {
-                    let movies = try decoder.decode(PopularMovieResponse.self, from: data).results
+                    let movies = try decoder.decode(MoviesResponse.self, from: data).results
                     result(.success(movies))
                 } catch {
                     result(.failure(.invalidResponse))
@@ -65,7 +66,7 @@ extension RemoteDataSourceImpl: RemoteDataSource {
                       response.statusCode == 200 {
                 let decoder = JSONDecoder()
                 do {
-                    let movies = try decoder.decode(UpComingMoviesResponse.self, from: data).results
+                    let movies = try decoder.decode(MoviesResponse.self, from: data).results
                     result(.success(movies))
                 } catch {
                     result(.failure(.invalidResponse))
@@ -75,4 +76,30 @@ extension RemoteDataSourceImpl: RemoteDataSource {
         task.resume()
     }
     
+    func getDetailMovie(
+        result: @escaping (Result<DetailMovieResponse, URLError>) -> Void,
+        idMovie: String
+    ) {
+        guard let url = URL(string: EndPoints.Gets.detail(id: idMovie).url) else {
+            print("URL not found!")
+            return
+        }
+        
+        let task = URLSession.shared.dataTask(with: url) { data, response, error in
+            if error != nil {
+                result(.failure(.addressUnReseachable(url)))
+            } else if let data = data,
+                      let response = response as? HTTPURLResponse,
+                      response.statusCode == 200 {
+                let decoder = JSONDecoder()
+                do {
+                    let movies = try decoder.decode(DetailMovieResponse.self, from: data)
+                    result(.success(movies))
+                } catch {
+                    result(.failure(.invalidResponse))
+                }
+            }
+        }
+        task.resume()
+    }
 }

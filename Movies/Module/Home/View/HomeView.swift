@@ -81,7 +81,11 @@ extension HomeView {
             ScrollView {
                 ForEach(presenter.popularMovies.prefix(3)) { result in
                     VStack {
-                        PopularMovieViewCell(data: result)
+                        ZStack {
+                            self.presenter.linkBuilder(idMovie: result.id) {
+                                PopularMovieViewCell(data: result)
+                            }
+                        }
                         Divider()
                     }
                 }
@@ -116,7 +120,11 @@ extension HomeView {
             ScrollView(.horizontal, showsIndicators: false){
                 HStack(spacing: -90){
                     ForEach(presenter.upcomingMovies.prefix(5)) { result in
-                        UpComingMovieViewCell(data: result)
+                        ZStack {
+                            self.presenter.linkBuilder(idMovie: result.id) {
+                                UpComingMovieViewCell(data: result)
+                            }
+                        }
                     }
                 }
             }.padding(.leading, -40)
