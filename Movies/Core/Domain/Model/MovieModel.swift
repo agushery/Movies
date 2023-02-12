@@ -1,5 +1,5 @@
 //
-//  PopularMovieModel.swift
+//  MovieModel.swift
 //  Movies
 //
 //  Created by Agus Hery on 12/02/23.
@@ -8,8 +8,8 @@
 
 import Foundation
 
-/// The `PopularMovieModel` struct represents a popular movie to view
-struct PopularMovieModel: Equatable, Identifiable {
+/// The `MovieModel` struct represents a popular movie to view
+struct MovieModel: Equatable, Identifiable {
     /// A Boolean indicating whether the movie is intended for adults.
     let adult: Bool
     /// The path to the movie's backdrop image.
@@ -17,9 +17,9 @@ struct PopularMovieModel: Equatable, Identifiable {
     /// An array of genre IDs for the movie.
     let genreIDs: [Int]
     /// The ID of the movie.
-    let id: Int
+    let id: String
     /// The original language of the movie.
-    let originalLanguage: OriginalLanguage
+    let originalLanguage: String
     /// The original title of the movie.
     let originalTitle: String
     /// A brief overview of the movie.
@@ -40,13 +40,13 @@ struct PopularMovieModel: Equatable, Identifiable {
     let voteCount: Int
 }
 
-extension PopularMovieModel {
-    static let dummyData: PopularMovieModel = PopularMovieModel(
+extension MovieModel {
+    static let dummyData: MovieModel = MovieModel(
         adult: true,
         backdropPath: "",
         genreIDs: [1],
-        id: 1,
-        originalLanguage: OriginalLanguage.es,
+        id: "",
+        originalLanguage: "",
         originalTitle: "title",
         overview: """
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.

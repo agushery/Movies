@@ -10,9 +10,9 @@ import Foundation
 
 protocol MovieRepositoryProtocol {
     
-    func getPopularMovies(completion: @escaping (Result<[PopularMovieModel], Error>) -> Void)
+    func getPopularMovies(completion: @escaping (Result<[MovieModel], Error>) -> Void)
     
-    func getUpcomingMovies(completion: @escaping (Result<[UpComingMovieModel], Error>) -> Void)
+    func getUpcomingMovies(completion: @escaping (Result<[MovieModel], Error>) -> Void)
 }
 
 final class MovieRepository: NSObject {
@@ -33,12 +33,12 @@ final class MovieRepository: NSObject {
 extension MovieRepository: MovieRepositoryProtocol {
     
     func getPopularMovies(
-        completion: @escaping (Result<[PopularMovieModel], Error>) -> Void
+        completion: @escaping (Result<[MovieModel], Error>) -> Void
     ) {
         self.remote.getPopularMovies { remoteResponse in
             switch remoteResponse {
             case .success(let movieResponse):
-                let resultList = MovieMapper.mapPopularMovieResponseToDomains(input: movieResponse)
+                let resultList = MovieMapper.mapMovieResponseToDomains(input: movieResponse)
                 completion(.success(resultList))
             case .failure(let error):
                 completion(.failure(error))
@@ -47,12 +47,12 @@ extension MovieRepository: MovieRepositoryProtocol {
     }
     
     func getUpcomingMovies(
-        completion: @escaping (Result<[UpComingMovieModel], Error>) -> Void
+        completion: @escaping (Result<[MovieModel], Error>) -> Void
     ) {
         self.remote.getUpcomingMovies { remoteResponse in
             switch remoteResponse {
             case .success(let movieResponse):
-                let resultList = MovieMapper.mapUpComingMovieResponseToDomains(input: movieResponse)
+                let resultList = MovieMapper.mapMovieResponseToDomains(input: movieResponse)
                 completion(.success(resultList))
             case .failure(let error):
                 completion(.failure(error))

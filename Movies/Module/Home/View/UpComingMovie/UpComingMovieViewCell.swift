@@ -12,7 +12,7 @@ import SwiftUI
 struct UpComingMovieViewCell: View {
     
     /// The data for the movie to be displayed.
-    var data: UpComingMovieModel
+    var data: MovieModel
     
     /// The body of the `View`.
     var body: some View {
@@ -51,6 +51,6 @@ extension UpComingMovieViewCell {
 // MARK: - Preview Provider
 struct UpComingMovieCell_Previews: PreviewProvider {
     static var previews: some View {
-        UpComingMovieViewCell(data: UpComingMovieModel.dummyData)
+        UpComingMovieViewCell(data: MovieModel.dummyData)
     }
 }

@@ -10,9 +10,9 @@ import Foundation
 
 protocol HomeUseCase {
     
-    func getPopularMovies(completion: @escaping (Result<[PopularMovieModel], Error>) -> Void)
+    func getPopularMovies(completion: @escaping (Result<[MovieModel], Error>) -> Void)
     
-    func getUpcomingMovies(completion: @escaping (Result<[UpComingMovieModel], Error>) -> Void)
+    func getUpcomingMovies(completion: @escaping (Result<[MovieModel], Error>) -> Void)
 }
 
 class HomeInteractor: HomeUseCase {
@@ -24,7 +24,7 @@ class HomeInteractor: HomeUseCase {
     }
     
     func getPopularMovies(
-        completion: @escaping (Result<[PopularMovieModel], Error>) -> Void
+        completion: @escaping (Result<[MovieModel], Error>) -> Void
     ) {
         repository.getPopularMovies { result in
             completion(result)
@@ -32,7 +32,7 @@ class HomeInteractor: HomeUseCase {
     }
     
     func getUpcomingMovies(
-        completion: @escaping (Result<[UpComingMovieModel], Error>) -> Void
+        completion: @escaping (Result<[MovieModel], Error>) -> Void
     ) {
         repository.getUpcomingMovies { result in
             completion(result)

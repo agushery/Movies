@@ -14,20 +14,20 @@ import SwiftUI
  *  This view is made up of multiple instances of UpComingMovieViewCell, which are individual cells that display information about a specific movie.
  *
  *  - Parameters:
- *      - data: An array of `UpComingMovieModel` objects that represent the movie data that will be displayed in the grid.
+ *      - data: An array of `MovieModel` objects that represent the movie data that will be displayed in the grid.
  *  - Properties:
  *      - columns: An array of `GridItem` objects that define the layout of the grid. By default, it uses a flexible grid layout.
  *      - navTitle: A string that represents the title of the view that will be displayed in the navigation bar. The default value is "Upcoming Movies".
  *
  *  - Example usage:
- *      - let upComingMovieData = [UpComingMovieModel.dummyData, PopularMovieModel.dummyData]
+ *      - let upComingMovieData = [UpComingMovieModel.dummyData, MovieModel.dummyData]
  *      - let upComingMovieView = UpComingMoviesView(data: popularMovieData)
  */
 struct UpComingMoviesView: View {
 
     // data: [UpComingMovieModel]
-    /// This property holds an array of `UpComingMovieModel` objects that will be used to display each movie.
-    var data: [UpComingMovieModel]
+    /// This property holds an array of `MovieModel` objects that will be used to display each movie.
+    var data: [MovieModel]
     
     // columns: [GridItem]
     /// This property holds the columns of the grid layout used to display the movie cells.
@@ -52,7 +52,7 @@ struct UpComingMoviesView: View {
 // MARK: - Preview Provider
 struct UpComingMoviesView_Previews: PreviewProvider {
     static var previews: some View {
-        UpComingMoviesView(data: [UpComingMovieModel.dummyData])
+        UpComingMoviesView(data: [MovieModel.dummyData])
     }
 }
 

@@ -1,15 +1,14 @@
 //
-//  UpComingMovieModel.swift
+//  MovieResponse.swift
 //  Movies
 //
-//  Created by Agus Hery on 10/02/23.
+//  Created by Agus Hery on 12/02/23.
+//  Copyright © 2023 Agus Hery. All rights reserved.
 //
 
 import Foundation
 
-/// Struct representing a upcoming movie model to use case
-struct UpComingMovieModel: Equatable, Identifiable  {
-    
+struct MovieResponse: Codable {
     /// Indicates if the movie is intended for adults
     let adult: Bool
     
@@ -17,7 +16,7 @@ struct UpComingMovieModel: Equatable, Identifiable  {
     let backdropPath: String
     
     /// The genre IDs associated with the movie
-    let genreIds: [Int]
+    let genreIDs: [Int]
     
     /// The movie's unique identifier
     let id: Int
@@ -51,24 +50,22 @@ struct UpComingMovieModel: Equatable, Identifiable  {
     
     /// The number of votes for the movie
     let voteCount: Int
-}
 
-extension UpComingMovieModel {
-    static let dummyData: UpComingMovieModel = UpComingMovieModel(
-        adult: true,
-        backdropPath: "",
-        genreIds: [8],
-        id: 1,
-        originalLanguage: "en",
-        originalTitle: "Original Title",
-        overview: """
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
-        """,
-        popularity: 100.0,
-        posterPath: "https://image.tmdb.org/t/p/w500/bxh5xCCW9Ynfg6EZJWUkc1zqTnr.jpg",
-        releaseDate: "20220801",
-        title: "Title",
-        video: true,
-        voteAverage: 100.0,
-        voteCount: 100)
+    /// Coding keys for mapping the keys in the API response to the properties in this struct
+    enum CodingKeys: String, CodingKey {
+        case adult
+        case backdropPath = "backdrop_path"
+        case genreIDs = "genre_ids"
+        case id
+        case originalLanguage = "original_language"
+        case originalTitle = "original_title"
+        case overview
+        case popularity
+        case posterPath = "poster_path"
+        case releaseDate = "release_date"
+        case title
+        case video
+        case voteAverage = "vote_average"
+        case voteCount = "vote_count"
+    }
 }

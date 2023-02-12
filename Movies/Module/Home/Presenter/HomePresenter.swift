@@ -13,8 +13,8 @@ class HomePresenter: ObservableObject {
     
     private var homeUseCase: HomeUseCase
     
-    @Published var popularMovies: [PopularMovieModel] = []
-    @Published var upcomingMovies: [UpComingMovieModel] = []
+    @Published var popularMovies: [MovieModel] = []
+    @Published var upcomingMovies: [MovieModel] = []
     @Published var errorMessage: String = ""
     @Published var loadingState: Bool = false
     

@@ -12,7 +12,7 @@ import SwiftUI
 struct PopularMovieViewCell: View {
     
     /// The data model for the popular movie being displayed.
-    var data: PopularMovieModel
+    var data: MovieModel
     
     /// A Boolean value indicating whether the full overview text should be shown or not.
     @State private var isFullTextShown = false
@@ -81,6 +81,6 @@ extension PopularMovieViewCell {
 
 struct PopularMovieViewCell_Previews: PreviewProvider {
     static var previews: some View {
-        PopularMovieViewCell(data: PopularMovieModel.dummyData)
+        PopularMovieViewCell(data: MovieModel.dummyData)
     }
 }

@@ -9,8 +9,8 @@
 import Foundation
 
 protocol RemoteDataSource: AnyObject {
-    func getPopularMovies(result: @escaping (Result<[PopularMovie], URLError>) -> Void)
-    func getUpcomingMovies(result: @escaping (Result<[UpComingMovie], URLError>) -> Void)
+    func getPopularMovies(result: @escaping (Result<[MovieResponse], URLError>) -> Void)
+    func getUpcomingMovies(result: @escaping (Result<[MovieResponse], URLError>) -> Void)
 }
 
 final class RemoteDataSourceImpl: NSObject {
@@ -24,7 +24,7 @@ final class RemoteDataSourceImpl: NSObject {
 extension RemoteDataSourceImpl: RemoteDataSource {
     
     func getPopularMovies(
-        result: @escaping (Result<[PopularMovie], URLError>) -> Void
+        result: @escaping (Result<[MovieResponse], URLError>) -> Void
     ){
         guard let url = URL(string: EndPoints.Gets.popular.url) else {
             print("URL not found!")
@@ -50,7 +50,7 @@ extension RemoteDataSourceImpl: RemoteDataSource {
     }
     
     func getUpcomingMovies(
-        result: @escaping (Result<[UpComingMovie], URLError>) -> Void
+        result: @escaping (Result<[MovieResponse], URLError>) -> Void
     ){
         guard let url = URL(string: EndPoints.Gets.upcoming.url) else {
             print("URL not found!")

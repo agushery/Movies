@@ -15,56 +15,23 @@ import Foundation
 final class MovieMapper {
     
     /**
-     Maps an array of PopularMovie response objects to an array of PopularMovieModel domain objects.
+     Maps an array of MovieResponse objects to an array of MovieModel domain objects.
      
      - parameter movieResponse: An array of PopularMovie response objects to be mapped.
      
-     - returns: An array of PopularMovieModel domain objects.
+     - returns: An array of MovieModel domain objects.
      */
-    static func mapPopularMovieResponseToDomains(
-        input movieResponse: [PopularMovie]
-    ) -> [PopularMovieModel] {
+    static func mapMovieResponseToDomains(
+        input movieResponse: [MovieResponse]
+    ) -> [MovieModel] {
         return movieResponse.map { result in
-            return PopularMovieModel(
+            return MovieModel(
                 adult: result.adult,
                 backdropPath: result.backdropPath,
                 genreIDs: result.genreIDs,
-                id: result.id,
-                originalLanguage: result.originalLanguage,
+                id: String(result.id),
+                originalLanguage: String(result.originalLanguage),
                 originalTitle: result.title,
-                overview: result.overview,
-                popularity: result.popularity,
-                posterPath: result.posterPath,
-                releaseDate: result.releaseDate,
-                title: result.title,
-                video: result.video,
-                voteAverage: result.voteAverage,
-                voteCount: result.voteCount
-            )
-        }
-    }
-    
-    
-    /**
-     Maps an array of UpComingMovie response objects to an array of UpComingMovieModel domain objects.
-     
-     - parameter movieResponse: An array of UpComingMovie response objects to be mapped.
-     
-     - returns: An array of UpComingMovieModel domain objects.
-     */
-    static func mapUpComingMovieResponseToDomains(
-        input movieResponse: [UpComingMovie]
-    ) -> [UpComingMovieModel] {
-        
-        /// Map the movie response objects to movie domain objects
-        return movieResponse.map { result in
-            return UpComingMovieModel(
-                adult: result.adult,
-                backdropPath: result.backdropPath,
-                genreIds: result.genreIds,
-                id: result.id,
-                originalLanguage: result.originalLanguage,
-                originalTitle: result.originalTitle,
                 overview: result.overview,
                 popularity: result.popularity,
                 posterPath: result.posterPath,
