@@ -21,6 +21,9 @@ struct HomeView: View {
     /// A flag to control the active state of the `UpComingMoviesView` navigation link.
     @State private var isMoreUpComingMovies: Bool = false
     
+    /// A flag to control the active state of the `PopularMoviesView` navigation link.
+    @State private var isMorePopularMovies: Bool = false
+    
     var body: some View {
         ZStack {
             if presenter.loadingState {
@@ -47,14 +50,42 @@ struct HomeView: View {
     }
 }
 
+// MARK: - Private views
+
 extension HomeView {
     
-    
+    /// The `popularMovie` view displays the list of upcoming movies.
     private var popularMovies: some View {
-        ScrollView {
-            ForEach(presenter.popularMovies) { result in
-                Text(result.title)
+        VStack {
+            NavigationLink(isActive: $isMorePopularMovies) {
+                PopularMovieView(data: presenter.popularMovies)
+            } label: {
+                EmptyView()
             }
+            HStack {
+                Text("Popular Movies")
+                    .padding(.leading)
+                    .font(.system(.title2, design: .default, weight: .bold))
+                Spacer()
+                Button {
+                    isMorePopularMovies = true
+                } label: {
+                    HStack(alignment: .center) {
+                        Spacer()
+                        Text("Show More")
+                            .font(.system(size: 14, weight: .semibold))
+                            .padding(.trailing)
+                    }
+                }
+            }
+            ScrollView {
+                ForEach(presenter.popularMovies.prefix(3)) { result in
+                    VStack {
+                        PopularMovieViewCell(data: result)
+                        Divider()
+                    }
+                }
+            }.padding(.leading, -20)
         }
     }
     
@@ -69,7 +100,7 @@ extension HomeView {
             HStack {
                 Text("Upcoming Movies")
                     .padding(.leading)
-                    .font(.system(.headline, design: .rounded, weight: .black))
+                    .font(.system(.title2, design: .default, weight: .bold))
                 Spacer()
                 Button {
                     isMoreUpComingMovies = true
@@ -88,7 +119,7 @@ extension HomeView {
                         UpComingMovieViewCell(data: result)
                     }
                 }
-            }.padding(.leading, -50)
+            }.padding(.leading, -40)
         }
     }
     

@@ -53,8 +53,8 @@ extension PopularMovieModel {
         """,
         popularity: 100,
         posterPath: "https://image.tmdb.org/t/p/w500/bxh5xCCW9Ynfg6EZJWUkc1zqTnr.jpg",
-        releaseDate: "",
-        title: "title",
+        releaseDate: "20200202",
+        title: "title title title title title title",
         video: true,
         voteAverage: 7.5,
         voteCount: 5)
