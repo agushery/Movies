@@ -17,10 +17,10 @@ struct MoviesResponse: Codable {
     /// Representing the date range for the movies returned in the response
     let dates: Dates?
     
-    /// The page number of the popular movies.
+    /// The page number of the  movies.
     let page: Int
 
-    /// An array of popular movie objects.
+    /// An array of  movie objects.
     let results: [MovieResponse]
 
     /// The total number of pages of popular movies.

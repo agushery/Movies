@@ -11,6 +11,8 @@ import Foundation
 protocol DetailUseCase {
     
     func getDetailMovie(completion: @escaping (Result<DetailMovieModel, Error>) -> Void, idMovie: String)
+    
+    func getVideosMovie(completion: @escaping (Result<[VideoModel], Error>) -> Void, idMovie: String)
 }
 
 class DetailInteractor: DetailUseCase {
@@ -28,5 +30,13 @@ class DetailInteractor: DetailUseCase {
         repository.getDetailMovie(completion: { result in
             completion(result)
         }, idMovie: idMovie)
+    }
+    
+    func getVideosMovie(
+        completion: @escaping (Result<[VideoModel], Error>) -> Void,
+        idMovie: String) {
+            repository.getVideosMovie(completion: { result in
+                completion(result)
+            }, idMovie: idMovie)
     }
 }

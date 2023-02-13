@@ -12,6 +12,7 @@ protocol RemoteDataSource: AnyObject {
     func getPopularMovies(result: @escaping (Result<[MovieResponse], URLError>) -> Void)
     func getUpcomingMovies(result: @escaping (Result<[MovieResponse], URLError>) -> Void)
     func getDetailMovie(result: @escaping (Result<DetailMovieResponse, URLError>) -> Void, idMovie: String)
+    func getVideoMovie(result: @escaping (Result<[Video], URLError>) -> Void, idMovie: String )
 }
 
 final class RemoteDataSourceImpl: NSObject {
@@ -95,6 +96,33 @@ extension RemoteDataSourceImpl: RemoteDataSource {
                 do {
                     let movies = try decoder.decode(DetailMovieResponse.self, from: data)
                     result(.success(movies))
+                } catch {
+                    result(.failure(.invalidResponse))
+                }
+            }
+        }
+        task.resume()
+    }
+    
+    func getVideoMovie(
+        result: @escaping (Result<[Video], URLError>) -> Void,
+        idMovie: String
+    ) {
+        guard let url = URL(string: EndPoints.Gets.video(id: idMovie).url) else {
+            print("URL not found!")
+            return
+        }
+        
+        let task = URLSession.shared.dataTask(with: url) { data, response, error in
+            if error != nil {
+                result(.failure(.addressUnReseachable(url)))
+            } else if let data = data,
+                 let response = response as? HTTPURLResponse,
+                 response.statusCode == 200 {
+                let decoder = JSONDecoder()
+                do {
+                    let videos = try decoder.decode(VideoResponse.self, from: data).results
+                    result(.success(videos))
                 } catch {
                     result(.failure(.invalidResponse))
                 }

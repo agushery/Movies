@@ -12,6 +12,8 @@ struct DetailView: View {
     
     @ObservedObject var presenter: DetailPresenter
     
+    @State private var selectedTrailer: VideoModel?
+    
     var body: some View {
         ZStack {
             if presenter.loadingState {
@@ -22,25 +24,16 @@ struct DetailView: View {
             } else {
                 ScrollView {
                     backdropImage
-                    HStack {
-                        topCard
-                        Spacer()
-                    }.padding(.horizontal)
-                    VStack(alignment: .leading, spacing: 10){
-                        Text(presenter.detailMovie.originalTitle)
-                            .font(.system(.title, design: .default, weight: .bold))
-                        Text(presenter.detailMovie.overview)
-                            .font(.system(.caption, design: .default, weight: .regular))
+                    topCard
+                    VStack(spacing: 10){
+                        DecriptionDetailView(presenter: presenter)
+                        trailers
                         Divider()
-                        Text("Website:")
-                            .font(.system(.headline, design: .default, weight: .semibold))
-                        Text(.init(presenter.detailMovie.homepage))
-                            .font(.system(.caption, design: .default, weight: .regular))
+                        if !presenter.detailMovie.homepage.isEmpty {
+                            website
+                        }
                     }
-                    .padding(.horizontal)
-                    .padding(.top, -40)
                 }
-                .ignoresSafeArea()
             }
         }
         .navigationBarTitleDisplayMode(.inline)
@@ -57,18 +50,12 @@ extension DetailView {
                         .frame(width: 108, height: 147)
                         .cornerRadius(10)
                         .foregroundColor(.white)
-                    AsyncImage(url: URL(string: API.baseIMGURL+posterPath)) { image in
-                        image
-                            .resizable()
-                            .frame(width: 100, height: 140)
-                    } placeholder: {
-                        ProgressView()
-                    }
+                    RemoteImageView(url: posterPath)
+                    .frame(width: 100, height: 140)
                     .aspectRatio(contentMode: .fill)
                     .cornerRadius(10)
                 }
             } else {
-                Image(systemName: "person")
                 Text("Not Found")
             }
         }
@@ -77,11 +64,7 @@ extension DetailView {
     private var backdropImage: some View {
         VStack {
             if let backdrop = presenter.detailMovie.backdropPath {
-                    AsyncImage(url: URL(string: API.baseIMGURL+backdrop)) { image in
-                        image.resizable()
-                    } placeholder: {
-                        ProgressView()
-                    }
+                    RemoteImageView(url: backdrop)
                     .aspectRatio(contentMode: .fit)
                     .frame(height: 219)
             } else {
@@ -97,11 +80,11 @@ extension DetailView {
     }
     
     private var topCard: some View {
-        HStack (alignment: .top, spacing: 10) {
+        HStack (alignment: .center, spacing: 10) {
             posterMovie
                 .offset(CGSize(width: 0, height: -40))
             VStack(alignment: .leading){
-                StrokeText(text: presenter.detailMovie.title, width: 1, color: .white)
+                StrokeTextView(text: presenter.detailMovie.title, width: 1, color: .white)
                     .font(.system(.title2, design: .default, weight: .bold))
                 HStack (alignment: .center) {
                     Image(systemName: "star")
@@ -110,7 +93,7 @@ extension DetailView {
                         .frame(height: 20)
                     Image(systemName: "play.laptopcomputer")
                     Text(String(presenter.detailMovie.popularity))
-                }.padding(.top, presenter.detailMovie.title.count > 20 ? -5 : 40)
+                }.padding(.top, presenter.detailMovie.title.count > 15 ? -5 : 15)
                 HStack {
                     ForEach(presenter.detailMovie.genres.prefix(2)) { genre in
                         Text(genre.name)
@@ -119,36 +102,51 @@ extension DetailView {
                 }
             }
             .offset(CGSize(width: 0, height: -35))
+            Spacer()
         }
         .padding(.top, -30)
+        .padding(.horizontal)
+    }
+    
+    private var trailers: some View {
+        VStack(alignment: .leading, spacing: 10){
+            Text("Trailers:")
+                .font(.system(.headline, design: .default, weight: .semibold))
+            ForEach(presenter.videosMovie.prefix(5), id: \.self) { trailer in
+                Button {
+                    self.selectedTrailer = trailer
+                } label: {
+                    HStack (alignment: .center) {
+                        Text(trailer.name)
+                            .multilineTextAlignment(.leading)
+                        Spacer()
+                        Image(systemName: "play.circle.fill")
+                            .foregroundColor(Color(UIColor.systemBlue))
+                    }
+                }
+            }
+        }
+        .padding(.horizontal)
+        .sheet(item: $selectedTrailer) { trailer in
+            SafariView(url: EndPoints.Gets.youtubeURL(site: trailer.site, key: trailer.key).url)
+        }
+    }
+    
+    private var website: some View {
+        HStack(alignment: .center){
+            Text("Website:")
+                .font(.system(.headline, design: .default, weight: .semibold))
+            Text(.init(presenter.detailMovie.homepage))
+                .font(.system(.caption, design: .default, weight: .regular))
+            Spacer()
+        }.padding(.horizontal)
+        
     }
 }
 
 struct DetailView_Previews: PreviewProvider {
     static var previews: some View {
         let detailUseCase = Injection.init().provideDetail()
-        DetailView(presenter: DetailPresenter(detailUseCase: detailUseCase, idMovie: "22"))
-    }
-}
-
-private struct StrokeText: View {
-    let text: String
-    let width: CGFloat
-    let color: Color
-
-    var body: some View {
-        ZStack{
-            ZStack{
-                Text(text).offset(x:  width, y:  width)
-                Text(text).offset(x: -width, y: -width)
-                Text(text).offset(x: -width, y:  width)
-                Text(text).offset(x:  width, y: -width)
-            }
-            .font(.system(.title2, design: .default, weight: .semibold))
-            .foregroundColor(color)
-            Text(text)
-                .font(.system(.title2, design: .default, weight: .semibold))
-                .foregroundColor(.black)
-        }
+        DetailView(presenter: DetailPresenter(detailUseCase: detailUseCase, idMovie: "505642"))
     }
 }

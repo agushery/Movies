@@ -35,11 +35,7 @@ extension PopularMovieViewCell {
     
     /// A view representing the movie poster image.
     private var imageMovie: some View {
-        AsyncImage(url: URL(string: API.baseIMGURL+data.posterPath)) { image in
-            image.resizable()
-        } placeholder: {
-            ProgressView()
-        }
+        RemoteImageView(url: data.posterPath)
         .aspectRatio(contentMode: .fit)
         .cornerRadius(15)
         .frame(width: 250, height: 200)

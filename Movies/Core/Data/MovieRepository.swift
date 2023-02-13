@@ -15,6 +15,8 @@ protocol MovieRepositoryProtocol {
     func getUpcomingMovies(completion: @escaping (Result<[MovieModel], Error>) -> Void)
     
     func getDetailMovie(completion: @escaping (Result<DetailMovieModel, Error>) -> Void, idMovie: String)
+    
+    func getVideosMovie(completion: @escaping (Result<[VideoModel], Error>) -> Void, idMovie: String)
 }
 
 final class MovieRepository: NSObject {
@@ -75,5 +77,19 @@ extension MovieRepository: MovieRepositoryProtocol {
                 completion(.failure(error))
             }
         }, idMovie: idMovie)
+    }
+    
+    func getVideosMovie(
+        completion: @escaping (Result<[VideoModel], Error>) -> Void,
+        idMovie: String) {
+            self.remote.getVideoMovie(result: { remoteResponse in
+                switch remoteResponse {
+                case .success(let success):
+                    let resultList = VideoModel.mapVideoResponseToDomain(input: success)
+                    completion(.success(resultList))
+                case .failure(let failure):
+                    completion(.failure(failure))
+                }
+            }, idMovie: idMovie)
     }
 }

@@ -11,14 +11,15 @@ import SwiftUI
 
 struct SafariView: UIViewControllerRepresentable {
     
-    let url: URL
-
+    let url: String
+    
+    let urlPrank: URL = URL(string: "https://www.youtube.com/watch?v=dQw4w9WgXcQ")!
     func updateUIViewController(_ uiViewController: SFSafariViewController, context: Context) {
         
     }
     
     func makeUIViewController(context: Context) -> SFSafariViewController {
-        let safariVC = SFSafariViewController(url: self.url)
+        let safariVC = SFSafariViewController(url: URL(string: self.url) ?? urlPrank)
         return safariVC
     }
 }

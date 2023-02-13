@@ -55,6 +55,10 @@ enum EndPoints {
         case popular
         /// Endpoint for retrieving detail movie
         case detail(id: String)
+        /// Endpoint for retrieving video
+        case video(id: String)
+        
+        case youtubeURL(site: String, key: String)
     
         /// The URL associated with the endpoint
         var url: String {
@@ -65,6 +69,10 @@ enum EndPoints {
                     return "\(API.baseURL)popular?api_key=\(API.apiKey)"
                 case .detail(let id):
                     return "\(API.baseURL)\(id)?api_key=\(API.apiKey)"
+                case .video(let id):
+                    return "\(API.baseURL)\(id)/videos?api_key=\(API.apiKey)"
+                case .youtubeURL(key: let key):
+                    return "https://youtube.com/watch?v=\(key)"
             }
         }
     }
