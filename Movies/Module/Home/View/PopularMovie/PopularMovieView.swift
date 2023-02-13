@@ -24,6 +24,8 @@ import SwiftUI
  */
 
 struct PopularMovieView: View {
+    /// The `HomePresenter` object that the view will observe for updates.
+    @ObservedObject var presenter: HomePresenter
     
     /// The data model for each movie.
     var data: [MovieModel]
@@ -39,20 +41,18 @@ struct PopularMovieView: View {
         ScrollView(.vertical, showsIndicators: false){
             LazyVGrid(columns: columns) {
                 ForEach(data) { result in
-                    PopularMovieViewCell(data: result)
+                    ZStack {
+                        self.presenter.linkBuilder(idMovie: result.id) {
+                            PopularMovieViewCell(data: result)
+                        }
+                        .buttonStyle(.plain)
+                    }
                     Divider()
                 }
             }
         }
         .navigationTitle(navTitle)
         .navigationBarTitleDisplayMode(.inline)
-    }
-}
-
-/// A preview provider for the PopularMovieView.
-struct PopularMovieView_Previews: PreviewProvider {
-    static var previews: some View {
-        PopularMovieView(data: [MovieModel.dummyData])
     }
 }
 

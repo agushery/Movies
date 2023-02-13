@@ -9,6 +9,7 @@
 import Foundation
 
 class DetailPresenter: ObservableObject {
+    
     private let detailUseCase: DetailUseCase
     private let idMovie: String
     
@@ -18,20 +19,16 @@ class DetailPresenter: ObservableObject {
     init(detailUseCase: DetailUseCase, idMovie: String) {
         self.detailUseCase = detailUseCase
         self.idMovie = idMovie
-    }
-    
-    func getDetailMovie() {
-        loadingState = true
         detailUseCase.getDetailMovie(completion: { result in
             switch result {
-            case .success(let movie):
+            case .success(let success):
                 DispatchQueue.main.async {
-                    self.detailMovie = movie
                     self.loadingState = false
+                    self.detailMovie = success
                 }
-            case .failure(let error):
-                print(error)
+            case .failure(let failure):
+                print(failure)
             }
-        }, idMovie: idMovie)
+        }, idMovie: self.idMovie)
     }
 }

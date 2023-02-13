@@ -24,6 +24,8 @@ import SwiftUI
  *      - let upComingMovieView = UpComingMoviesView(data: popularMovieData)
  */
 struct UpComingMoviesView: View {
+    /// The `HomePresenter` object that the view will observe for updates.
+    @ObservedObject var presenter: HomePresenter
 
     // data: [UpComingMovieModel]
     /// This property holds an array of `MovieModel` objects that will be used to display each movie.
@@ -40,7 +42,12 @@ struct UpComingMoviesView: View {
         ScrollView(.vertical, showsIndicators: false){
             LazyVGrid(columns: columns) {
                 ForEach(data) { result in
-                    UpComingMovieViewCell(data: result)
+                    ZStack {
+                        self.presenter.linkBuilder(idMovie: result.id) {
+                            UpComingMovieViewCell(data: result)
+                        }
+                        .buttonStyle(.plain)
+                    }
                 }
             }
         }
@@ -49,10 +56,4 @@ struct UpComingMoviesView: View {
     }
 }
 
-// MARK: - Preview Provider
-struct UpComingMoviesView_Previews: PreviewProvider {
-    static var previews: some View {
-        UpComingMoviesView(data: [MovieModel.dummyData])
-    }
-}
 

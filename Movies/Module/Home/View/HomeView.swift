@@ -58,7 +58,7 @@ extension HomeView {
     private var popularMovies: some View {
         VStack {
             NavigationLink(isActive: $isMorePopularMovies) {
-                PopularMovieView(data: presenter.popularMovies)
+                PopularMovieView(presenter: presenter, data: presenter.popularMovies)
             } label: {
                 EmptyView()
             }
@@ -85,6 +85,7 @@ extension HomeView {
                             self.presenter.linkBuilder(idMovie: result.id) {
                                 PopularMovieViewCell(data: result)
                             }
+                            .buttonStyle(.plain)
                         }
                         Divider()
                     }
@@ -97,7 +98,7 @@ extension HomeView {
     private var upComingMovie: some View {
         VStack {
             NavigationLink(isActive: $isMoreUpComingMovies) {
-                UpComingMoviesView(data: presenter.upcomingMovies)
+                UpComingMoviesView(presenter: presenter, data: presenter.upcomingMovies)
             } label: {
                 EmptyView()
             }
@@ -124,6 +125,7 @@ extension HomeView {
                             self.presenter.linkBuilder(idMovie: result.id) {
                                 UpComingMovieViewCell(data: result)
                             }
+                            .buttonStyle(.plain)
                         }
                     }
                 }

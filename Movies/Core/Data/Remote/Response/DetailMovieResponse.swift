@@ -63,7 +63,7 @@ struct DetailMovieResponse: Decodable {
     }
 }
 
-struct Genres: Decodable {
+struct Genres: Decodable, Identifiable {
     let id: Int
     let name: String
 }
