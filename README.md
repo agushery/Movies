@@ -6,9 +6,12 @@ A sample project demonstrating the implementation of Clean Architecture with VIP
 
 ## Tech Stack
 
-Swift UI
-RxSwift
-DIP (Dependency Injection)
+Swift UI,
+Realm Swift,
+RxSwift,
+SafariServices,
+Dependency Injection,
+VIPER
 
 ### VIPER Pattern
 
