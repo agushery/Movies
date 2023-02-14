@@ -20,7 +20,11 @@ class DetailPresenter: ObservableObject {
     init(detailUseCase: DetailUseCase, idMovie: String) {
         self.detailUseCase = detailUseCase
         self.idMovie = idMovie
-        
+        getDetailMovie()
+        getVideosMovie()
+    }
+    
+    func getDetailMovie() {
         detailUseCase.getDetailMovie(completion: { result in
             switch result {
             case .success(let success):
@@ -32,7 +36,9 @@ class DetailPresenter: ObservableObject {
                 print(failure)
             }
         }, idMovie: self.idMovie)
-        
+    }
+    
+    func getVideosMovie() {
         detailUseCase.getVideosMovie(completion: { result in
             switch result {
             case .success(let success):

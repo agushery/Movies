@@ -93,7 +93,7 @@ extension DetailView {
                         .frame(height: 20)
                     Image(systemName: "play.laptopcomputer")
                     Text(String(presenter.detailMovie.popularity))
-                }.padding(.top, presenter.detailMovie.title.count > 15 ? -5 : 15)
+                }.padding(.top, presenter.detailMovie.title.count > 15 ? -5 : 35)
                 HStack {
                     ForEach(presenter.detailMovie.genres.prefix(2)) { genre in
                         Text(genre.name)
@@ -128,7 +128,7 @@ extension DetailView {
         }
         .padding(.horizontal)
         .sheet(item: $selectedTrailer) { trailer in
-            SafariView(url: EndPoints.Gets.youtubeURL(site: trailer.site, key: trailer.key).url)
+            SafariView(url: trailer.key)
         }
     }
     

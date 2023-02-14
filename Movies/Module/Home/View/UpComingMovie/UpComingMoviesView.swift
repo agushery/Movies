@@ -26,10 +26,6 @@ import SwiftUI
 struct UpComingMoviesView: View {
     /// The `HomePresenter` object that the view will observe for updates.
     @ObservedObject var presenter: HomePresenter
-
-    // data: [UpComingMovieModel]
-    /// This property holds an array of `MovieModel` objects that will be used to display each movie.
-    var data: [MovieModel]
     
     // columns: [GridItem]
     /// This property holds the columns of the grid layout used to display the movie cells.
@@ -41,7 +37,7 @@ struct UpComingMoviesView: View {
     var body: some View {
         ScrollView(.vertical, showsIndicators: false){
             LazyVGrid(columns: columns) {
-                ForEach(data) { result in
+                ForEach(presenter.upcomingMovies, id: \.self) { result in
                     ZStack {
                         self.presenter.linkBuilder(idMovie: result.id) {
                             UpComingMovieViewCell(data: result)
@@ -57,3 +53,9 @@ struct UpComingMoviesView: View {
 }
 
 
+struct UpComingMoviesView_Previews: PreviewProvider {
+    static var previews: some View {
+        let homeUseCase = Injection.init().provideHome()
+        UpComingMoviesView(presenter: HomePresenter(homeUseCase: homeUseCase))
+    }
+}

@@ -21,6 +21,8 @@ class HomePresenter: ObservableObject {
     
     init(homeUseCase: HomeUseCase) {
         self.homeUseCase = homeUseCase
+        getPopularMovies()
+        getUpcomingMovies()
     }
     
 }

@@ -41,12 +41,6 @@ struct HomeView: View {
             }
         }
         .navigationTitle(navTitle)
-        .onAppear {
-            if self.presenter.upcomingMovies.count == 0 && self.presenter.popularMovies.count == 0 {
-                self.presenter.getPopularMovies()
-                self.presenter.getUpcomingMovies()
-            }
-        }
     }
 }
 
@@ -98,7 +92,7 @@ extension HomeView {
     private var upComingMovie: some View {
         VStack {
             NavigationLink(isActive: $isMoreUpComingMovies) {
-                UpComingMoviesView(presenter: presenter, data: presenter.upcomingMovies)
+                UpComingMoviesView(presenter: presenter)
             } label: {
                 EmptyView()
             }
@@ -135,3 +129,9 @@ extension HomeView {
     
 }
 
+struct HomeView_Previews: PreviewProvider {
+    static var previews: some View {
+        let homeUseCase = Injection.init().provideHome()
+        HomeView(presenter: HomePresenter(homeUseCase: homeUseCase))
+    }
+}

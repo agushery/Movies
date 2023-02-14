@@ -9,7 +9,7 @@
 import Foundation
 
 /// The `MovieModel` struct represents a popular movie to view
-struct MovieModel: Equatable, Identifiable {
+struct MovieModel: Equatable, Identifiable, Hashable {
     /// A Boolean indicating whether the movie is intended for adults.
     let adult: Bool
     /// The path to the movie's backdrop image.
