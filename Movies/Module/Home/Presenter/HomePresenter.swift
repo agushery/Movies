@@ -17,13 +17,7 @@ class HomePresenter: ObservableObject {
     @Published var popularMovies: [MovieModel] = []
     @Published var upcomingMovies: [MovieModel] = []
     @Published var searchMoviesData: [MovieModel] = []
-    @Published var userQuery: String = "" {
-        didSet {
-            if userQuery.isEmpty {
-                self.searchMoviesData = []
-            }
-        }
-    }
+    @Published var userQuery: String = ""
     @Published var errorMessage: String = ""
     @Published var loadingState: Bool = false
     
@@ -92,11 +86,13 @@ extension HomePresenter {
                                 return
                                     result.posterPath == nil ||
                                     !result.overview.isEmpty ||
-                                    result.voteCount > 0
+                                    result.voteCount > 1 ||
+                                    result.voteAverage > 1
                             })
                         }
                     case .failure(let failure):
                         print(failure)
+                        self.searchMoviesData = []
                     }
                 }, query: query)
             }

@@ -27,7 +27,9 @@ struct DetailView: View {
                     topCard
                     VStack(spacing: 10){
                         DecriptionDetailView(presenter: presenter)
-                        trailers
+                        if !presenter.videosMovie.isEmpty {
+                            trailers
+                        }
                         Divider()
                         if !presenter.detailMovie.homepage.isEmpty {
                             website

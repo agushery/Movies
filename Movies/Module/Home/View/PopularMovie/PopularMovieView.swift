@@ -26,10 +26,7 @@ import SwiftUI
 struct PopularMovieView: View {
     /// The `HomePresenter` object that the view will observe for updates.
     @ObservedObject var presenter: HomePresenter
-    
-    /// The data model for each movie.
-    var data: [MovieModel]
-    
+
     /// The column layout for the grid view.
     var columns = [GridItem(.flexible())]
     
@@ -40,7 +37,7 @@ struct PopularMovieView: View {
     var body: some View {
         ScrollView(.vertical, showsIndicators: false){
             LazyVGrid(columns: columns) {
-                ForEach(data) { result in
+                ForEach(presenter.popularMovies) { result in
                     ZStack {
                         self.presenter.linkBuilder(idMovie: result.id) {
                             PopularMovieViewCell(data: result)

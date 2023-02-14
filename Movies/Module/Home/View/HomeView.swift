@@ -38,7 +38,6 @@ struct HomeView: View {
                             popularMovies
                             upComingMovie
                         }
-                        
                     } else {
                         searchMovies
                     }
@@ -61,7 +60,7 @@ extension HomeView {
     private var popularMovies: some View {
         VStack {
             NavigationLink(isActive: $isMorePopularMovies) {
-                PopularMovieView(presenter: presenter, data: presenter.popularMovies)
+                PopularMovieView(presenter: presenter)
             } label: {
                 EmptyView()
             }
@@ -139,18 +138,9 @@ extension HomeView {
     /// The `searchMovies` view displays the list of movies that search by user.
     private var searchMovies: some View {
         VStack(alignment: .leading){
-            if presenter.searchMoviesData.isEmpty {
-                Spacer()
-                VStack(alignment: .center){
-                    Image(systemName: "arrow.counterclockwise.icloud")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(height: 50)
-                    Text("Try anothers one or add more keywords...")
-                }
-            } else {
-                Text("Found \(presenter.searchMoviesData.count) movies contains: \(presenter.userQuery)").padding(.leading)
-            }
+            Text("Found \(presenter.searchMoviesData.count) movies contain: \(presenter.userQuery)")
+                .font(.system(.title3, design: .default, weight: .bold))
+                .padding([.horizontal, .vertical])
             ForEach(presenter.searchMoviesData, id: \.releaseDate) { data in
                 self.presenter.linkBuilder(idMovie: data.id) {
                     PopularMovieViewCell(data: data)
