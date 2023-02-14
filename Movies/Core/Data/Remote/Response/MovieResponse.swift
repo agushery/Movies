@@ -13,7 +13,7 @@ struct MovieResponse: Codable {
     let adult: Bool
     
     /// The path of the movie's backdrop image
-    let backdropPath: String
+    let backdropPath: String?
     
     /// The genre IDs associated with the movie
     let genreIDs: [Int]
@@ -34,7 +34,7 @@ struct MovieResponse: Codable {
     let popularity: Double
     
     /// The path of the movie's poster image
-    let posterPath: String
+    let posterPath: String?
     
     /// The release date of the movie
     let releaseDate: String

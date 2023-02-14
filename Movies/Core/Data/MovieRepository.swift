@@ -17,6 +17,8 @@ protocol MovieRepositoryProtocol {
     func getDetailMovie(completion: @escaping (Result<DetailMovieModel, Error>) -> Void, idMovie: String)
     
     func getVideosMovie(completion: @escaping (Result<[VideoModel], Error>) -> Void, idMovie: String)
+    
+    func searchMovies(completion: @escaping (Result<[MovieModel], Error>) -> Void, query: String)
 }
 
 final class MovieRepository: NSObject {
@@ -91,5 +93,20 @@ extension MovieRepository: MovieRepositoryProtocol {
                     completion(.failure(failure))
                 }
             }, idMovie: idMovie)
+    }
+    
+    func searchMovies(
+        completion: @escaping (Result<[MovieModel], Error>) -> Void,
+        query: String
+    ) {
+        self.remote.searchMovies(result: { remoteResponse in
+            switch remoteResponse {
+            case .success(let success):
+                let resultList = MovieMapper.mapMovieResponseToDomains(input: success)
+                completion(.success(resultList))
+            case .failure(let failure):
+                completion(.failure(failure))
+            }
+        }, query: query)
     }
 }

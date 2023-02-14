@@ -13,7 +13,7 @@ struct MovieModel: Equatable, Identifiable, Hashable {
     /// A Boolean indicating whether the movie is intended for adults.
     let adult: Bool
     /// The path to the movie's backdrop image.
-    let backdropPath: String
+    let backdropPath: String?
     /// An array of genre IDs for the movie.
     let genreIDs: [Int]
     /// The ID of the movie.
@@ -27,7 +27,7 @@ struct MovieModel: Equatable, Identifiable, Hashable {
     /// The movie's popularity score.
     let popularity: Double
     /// The path to the movie's poster image.
-    let posterPath: String
+    let posterPath: String?
     /// The release date of the movie.
     let releaseDate: String
     /// The title of the movie.

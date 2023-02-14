@@ -11,7 +11,7 @@ import Foundation
 struct API {
   
     /// The base URL for the API
-    static let baseURL: String = "https://api.themoviedb.org/3/movie/"
+    static let baseURL: String = "https://api.themoviedb.org/3/"
     
     /// The base URL for poster IMG
     static let baseIMGURL: String = "https://image.tmdb.org/t/p/w500"
@@ -57,22 +57,26 @@ enum EndPoints {
         case detail(id: String)
         /// Endpoint for retrieving video
         case video(id: String)
-        
+        /// Endpoint for youtube player
         case youtubeURL(key: String)
+        
+        case search(query: String)
     
         /// The URL associated with the endpoint
         var url: String {
             switch self {
                 case .upcoming:
-                    return "\(API.baseURL)upcoming?api_key=\(API.apiKey)"
+                    return "\(API.baseURL)movie/upcoming?api_key=\(API.apiKey)"
                 case .popular:
-                    return "\(API.baseURL)popular?api_key=\(API.apiKey)"
+                    return "\(API.baseURL)movie/popular?api_key=\(API.apiKey)"
                 case .detail(let id):
-                    return "\(API.baseURL)\(id)?api_key=\(API.apiKey)"
+                    return "\(API.baseURL)movie/\(id)?api_key=\(API.apiKey)"
                 case .video(let id):
-                    return "\(API.baseURL)\(id)/videos?api_key=\(API.apiKey)"
+                    return "\(API.baseURL)movie/\(id)/videos?api_key=\(API.apiKey)"
                 case .youtubeURL(let key):
                     return "https://youtube.com/watch?v=\(key)"
+                case .search(let query):
+                    return "\(API.baseURL)search/movie?api_key=\(API.apiKey)&query=\(query)"
             }
         }
     }

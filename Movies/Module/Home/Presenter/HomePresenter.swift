@@ -16,6 +16,14 @@ class HomePresenter: ObservableObject {
     
     @Published var popularMovies: [MovieModel] = []
     @Published var upcomingMovies: [MovieModel] = []
+    @Published var searchMoviesData: [MovieModel] = []
+    @Published var userQuery: String = "" {
+        didSet {
+            if userQuery.isEmpty {
+                self.searchMoviesData = []
+            }
+        }
+    }
     @Published var errorMessage: String = ""
     @Published var loadingState: Bool = false
     
@@ -64,6 +72,33 @@ extension HomePresenter {
                     self.loadingState = false
                     self.errorMessage = error.localizedDescription
                 }
+            }
+        }
+    }
+}
+
+// MARK: - Search Movie
+extension HomePresenter {
+    func searchMovies(query: String) {
+        if !query.isEmpty {
+            loadingState = true
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                self.homeUseCase.searchMovies(completion: { result in
+                    switch result {
+                    case .success(let success):
+                        DispatchQueue.main.async {
+                            self.loadingState = false
+                            self.searchMoviesData = success.filter({ result in
+                                return
+                                    result.posterPath == nil ||
+                                    !result.overview.isEmpty ||
+                                    result.voteCount > 0
+                            })
+                        }
+                    case .failure(let failure):
+                        print(failure)
+                    }
+                }, query: query)
             }
         }
     }

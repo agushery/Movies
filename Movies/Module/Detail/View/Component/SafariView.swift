@@ -8,6 +8,8 @@
 
 import SafariServices
 import SwiftUI
+let siteYoutube: String = "YouTube"
+
 
 struct SafariView: UIViewControllerRepresentable {
     

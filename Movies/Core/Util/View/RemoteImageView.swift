@@ -10,19 +10,23 @@ import SwiftUI
 
 struct RemoteImageView: View {
     
-    var url: String
+    var url: String?
     
     var body: some View {
-        AsyncImage(url: URL(string: API.baseIMGURL+url)) { image in
-            image.resizable()
-        } placeholder: {
-            ProgressView()
+        if let url = url {
+            AsyncImage(url: URL(string: API.baseIMGURL+url)) { image in
+                image.resizable()
+            } placeholder: {
+                ProgressView()
+            }
+        } else {
+            Text("Not Found")
         }
     }
 }
 
 struct RemoteImageView_Previews: PreviewProvider {
     static var previews: some View {
-        RemoteImageView(url: MovieModel.dummyData.posterPath)
+        RemoteImageView(url: MovieModel.dummyData.posterPath!)
     }
 }

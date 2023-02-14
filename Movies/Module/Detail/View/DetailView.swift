@@ -113,15 +113,17 @@ extension DetailView {
             Text("Trailers:")
                 .font(.system(.headline, design: .default, weight: .semibold))
             ForEach(presenter.videosMovie.prefix(5), id: \.self) { trailer in
-                Button {
-                    self.selectedTrailer = trailer
-                } label: {
-                    HStack (alignment: .center) {
-                        Text(trailer.name)
-                            .multilineTextAlignment(.leading)
-                        Spacer()
-                        Image(systemName: "play.circle.fill")
-                            .foregroundColor(Color(UIColor.systemBlue))
+                if trailer.site == siteYoutube {
+                    Button {
+                        self.selectedTrailer = trailer
+                    } label: {
+                        HStack (alignment: .center) {
+                            Text(trailer.name)
+                                .multilineTextAlignment(.leading)
+                            Spacer()
+                            Image(systemName: "play.circle.fill")
+                                .foregroundColor(Color(UIColor.systemBlue))
+                        }
                     }
                 }
             }

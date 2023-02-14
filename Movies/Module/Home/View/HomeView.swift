@@ -33,14 +33,23 @@ struct HomeView: View {
                 }
             } else {
                 ScrollView {
-                    VStack(alignment: .leading, spacing: 20){
-                        popularMovies
-                        upComingMovie
+                    if presenter.userQuery.isEmpty {
+                        VStack(alignment: .leading, spacing: 20){
+                            popularMovies
+                            upComingMovie
+                        }
+                        
+                    } else {
+                        searchMovies
                     }
                 }
             }
         }
+        .onReceive(presenter.$userQuery.debounce(for: 0.5, scheduler: RunLoop.main), perform: { newValue in
+            self.presenter.searchMovies(query: newValue)
+        })
         .navigationTitle(navTitle)
+        .searchable(text: $presenter.userQuery, prompt: "Search movie...")
     }
 }
 
@@ -125,6 +134,31 @@ extension HomeView {
                 }
             }.padding(.leading, -40)
         }
+    }
+    
+    /// The `searchMovies` view displays the list of movies that search by user.
+    private var searchMovies: some View {
+        VStack(alignment: .leading){
+            if presenter.searchMoviesData.isEmpty {
+                Spacer()
+                VStack(alignment: .center){
+                    Image(systemName: "arrow.counterclockwise.icloud")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(height: 50)
+                    Text("Try anothers one or add more keywords...")
+                }
+            } else {
+                Text("Found \(presenter.searchMoviesData.count) movies contains: \(presenter.userQuery)").padding(.leading)
+            }
+            ForEach(presenter.searchMoviesData, id: \.releaseDate) { data in
+                self.presenter.linkBuilder(idMovie: data.id) {
+                    PopularMovieViewCell(data: data)
+                }
+                .buttonStyle(.plain)
+                Divider()
+            }
+        }.padding(.horizontal)
     }
     
 }

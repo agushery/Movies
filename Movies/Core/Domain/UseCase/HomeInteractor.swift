@@ -13,6 +13,8 @@ protocol HomeUseCase {
     func getPopularMovies(completion: @escaping (Result<[MovieModel], Error>) -> Void)
     
     func getUpcomingMovies(completion: @escaping (Result<[MovieModel], Error>) -> Void)
+    
+    func searchMovies(completion: @escaping (Result<[MovieModel], Error>) -> Void, query: String)
 }
 
 class HomeInteractor: HomeUseCase {
@@ -37,5 +39,13 @@ class HomeInteractor: HomeUseCase {
         repository.getUpcomingMovies { result in
             completion(result)
         }
+    }
+    
+    func searchMovies(
+        completion: @escaping (Result<[MovieModel], Error>) -> Void,
+        query: String) {
+            repository.searchMovies(completion: { result in
+                completion(result)
+            }, query: query)
     }
 }
