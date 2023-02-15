@@ -103,12 +103,21 @@ extension HomePresenter {
 // MARK: - Link Builder
 extension HomePresenter {
     
-    func linkBuilder<Content: View>(
+    func goToDetailView<Content: View>(
         idMovie: String,
         @ViewBuilder content: () -> Content
     ) -> some View {
       NavigationLink(
         destination: router.makeDetailView(id: idMovie)) { content() }
+    }
+    
+    func goToMoreView<Content: View> (
+        presenter: HomePresenter,
+        view: HomeViews,
+        @ViewBuilder content: () -> Content
+    ) -> some View {
+        NavigationLink(
+            destination: router.makeMoreMovies(to: view, presenter: presenter)) { content() }
     }
     
 }

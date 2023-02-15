@@ -39,7 +39,7 @@ struct UpComingMoviesView: View {
             LazyVGrid(columns: columns) {
                 ForEach(presenter.upcomingMovies, id: \.self) { result in
                     ZStack {
-                        self.presenter.linkBuilder(idMovie: result.id) {
+                        self.presenter.goToDetailView(idMovie: result.id) {
                             UpComingMovieViewCell(data: result)
                         }
                         .buttonStyle(.plain)

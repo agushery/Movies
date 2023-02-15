@@ -59,32 +59,23 @@ extension HomeView {
     /// The `popularMovie` view displays the list of upcoming movies.
     private var popularMovies: some View {
         VStack {
-            NavigationLink(isActive: $isMorePopularMovies) {
-                PopularMovieView(presenter: presenter)
-            } label: {
-                EmptyView()
-            }
             HStack {
                 Text("Popular Movies")
                     .padding(.leading)
                     .font(.system(.title2, design: .default, weight: .bold))
                 Spacer()
-                Button {
-                    isMorePopularMovies = true
-                } label: {
-                    HStack(alignment: .center) {
-                        Spacer()
+                ZStack {
+                    self.presenter.goToMoreView(presenter: presenter, view: .popularMovies) {
                         Text("Show More")
                             .font(.system(size: 14, weight: .semibold))
-                            .padding(.trailing)
                     }
-                }
+                }.padding(.trailing)
             }
             ScrollView {
                 ForEach(presenter.popularMovies.prefix(3)) { result in
                     VStack {
                         ZStack {
-                            self.presenter.linkBuilder(idMovie: result.id) {
+                            self.presenter.goToDetailView(idMovie: result.id) {
                                 PopularMovieViewCell(data: result)
                             }
                             .buttonStyle(.plain)
@@ -99,32 +90,23 @@ extension HomeView {
     /// The `upComingMovie` view displays the list of upcoming movies.
     private var upComingMovie: some View {
         VStack {
-            NavigationLink(isActive: $isMoreUpComingMovies) {
-                UpComingMoviesView(presenter: presenter)
-            } label: {
-                EmptyView()
-            }
             HStack {
                 Text("Upcoming Movies")
                     .padding(.leading)
                     .font(.system(.title2, design: .default, weight: .bold))
                 Spacer()
-                Button {
-                    isMoreUpComingMovies = true
-                } label: {
-                    HStack(alignment: .center) {
-                        Spacer()
+                ZStack {
+                    self.presenter.goToMoreView(presenter: presenter, view: .upcomingMovies) {
                         Text("Show More")
                             .font(.system(size: 14, weight: .semibold))
-                            .padding(.trailing)
                     }
-                }
+                }.padding(.trailing)
             }
             ScrollView(.horizontal, showsIndicators: false){
                 HStack(spacing: -90){
                     ForEach(presenter.upcomingMovies.prefix(5)) { result in
                         ZStack {
-                            self.presenter.linkBuilder(idMovie: result.id) {
+                            self.presenter.goToDetailView(idMovie: result.id) {
                                 UpComingMovieViewCell(data: result)
                             }
                             .buttonStyle(.plain)
@@ -142,7 +124,7 @@ extension HomeView {
                 .font(.system(.title3, design: .default, weight: .bold))
                 .padding([.horizontal, .vertical])
             ForEach(presenter.searchMoviesData, id: \.releaseDate) { data in
-                self.presenter.linkBuilder(idMovie: data.id) {
+                self.presenter.goToDetailView(idMovie: data.id) {
                     PopularMovieViewCell(data: data)
                 }
                 .buttonStyle(.plain)

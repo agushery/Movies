@@ -39,7 +39,7 @@ struct PopularMovieView: View {
             LazyVGrid(columns: columns) {
                 ForEach(presenter.popularMovies) { result in
                     ZStack {
-                        self.presenter.linkBuilder(idMovie: result.id) {
+                        self.presenter.goToDetailView(idMovie: result.id) {
                             PopularMovieViewCell(data: result)
                         }
                         .buttonStyle(.plain)
