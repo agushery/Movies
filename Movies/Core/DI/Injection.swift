@@ -11,8 +11,10 @@ import RealmSwift
 class Injection: NSObject {
     
     private func provideRepository() -> MovieRepository {
-        let remoteDataSource = RemoteDataSourceImpl.sharedInstance
-        return MovieRepository.sharedInstance(remoteDataSource)
+        let realm = try? Realm()
+        let localeDataSource: LocalDataSource = LocalDataSourceImpl.sharedInstance(realm)
+        let remoteDataSource: RemoteDataSource = RemoteDataSourceImpl.sharedInstance
+        return MovieRepository.sharedInstance(localeDataSource, remoteDataSource)
     }
     
     func provideHome() -> HomeUseCase {

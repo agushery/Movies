@@ -23,16 +23,18 @@ protocol MovieRepositoryProtocol {
 
 final class MovieRepository: NSObject {
     
-    typealias MovieInstance = (RemoteDataSource) -> MovieRepository
+    typealias MovieInstance = (LocalDataSource ,RemoteDataSource) -> MovieRepository
     
+    fileprivate let locale: LocalDataSource
     fileprivate let remote: RemoteDataSource
     
-    private init(remote: RemoteDataSource) {
+    private init(locale: LocalDataSource, remote: RemoteDataSource) {
+        self.locale = locale
         self.remote = remote
     }
     
-    static let sharedInstance: MovieInstance = { remoteRepo in
-        return MovieRepository(remote: remoteRepo)
+    static let sharedInstance: MovieInstance = { localeRepo, remoteRepo in
+        return MovieRepository(locale: localeRepo, remote: remoteRepo)
     }
 }
 
@@ -41,28 +43,86 @@ extension MovieRepository: MovieRepositoryProtocol {
     func getPopularMovies(
         completion: @escaping (Result<[MovieModel], Error>) -> Void
     ) {
-        self.remote.getPopularMovies { remoteResponse in
-            switch remoteResponse {
-            case .success(let movieResponse):
-                let resultList = MovieMapper.mapMovieResponseToDomains(input: movieResponse)
-                completion(.success(resultList))
-            case .failure(let error):
-                completion(.failure(error))
+        self.locale.getPopularMovies { localeResponses in
+          switch localeResponses {
+          case .success(let movieEntity):
+              let movieList = PopularMovieEntity.toPopularMovieModel(from: movieEntity)
+            if movieList.isEmpty {
+              self.remote.getPopularMovies { remoteResponses in
+                switch remoteResponses {
+                case .success(let movieResponses):
+                    let movieEntity = PopularMovieEntity.toPopularEntity(from: movieResponses)
+                  self.locale.addPopularMovies(from: movieEntity) { addState in
+                    switch addState {
+                    case .success(let resultFromAdd):
+                      if resultFromAdd {
+                        self.locale.getPopularMovies { localeResponses in
+                          switch localeResponses {
+                          case .success(let movieEntity):
+                              let resultList = PopularMovieEntity.toPopularMovieModel(from: movieEntity)
+                            completion(.success(resultList))
+                          case .failure(let error):
+                            completion(.failure(error))
+                          }
+                        }
+                      }
+                    case .failure(let error):
+                      completion(.failure(error))
+                    }
+                  }
+                case .failure(let error):
+                  completion(.failure(error))
+                }
+              }
+            } else {
+              completion(.success(movieList))
             }
+          case .failure(let error):
+            completion(.failure(error))
+          }
         }
     }
     
     func getUpcomingMovies(
         completion: @escaping (Result<[MovieModel], Error>) -> Void
     ) {
-        self.remote.getUpcomingMovies { remoteResponse in
-            switch remoteResponse {
-            case .success(let movieResponse):
-                let resultList = MovieMapper.mapMovieResponseToDomains(input: movieResponse)
-                completion(.success(resultList))
-            case .failure(let error):
-                completion(.failure(error))
+        self.locale.getUpComingMovies { localeResponses in
+          switch localeResponses {
+          case .success(let movieEntity):
+              let movieList = UpComingMovieEntity.toPopularMovieModel(from: movieEntity)
+            if movieList.isEmpty {
+              self.remote.getUpcomingMovies { remoteResponses in
+                switch remoteResponses {
+                case .success(let movieResponses):
+                    let movieEntity = UpComingMovieEntity.toPopularEntity(from: movieResponses)
+                  self.locale.addUpcomingMovies(from: movieEntity) { addState in
+                    switch addState {
+                    case .success(let resultFromAdd):
+                      if resultFromAdd {
+                        self.locale.getUpComingMovies { localeResponses in
+                          switch localeResponses {
+                          case .success(let movieEntity):
+                              let resultList = UpComingMovieEntity.toPopularMovieModel(from: movieEntity)
+                            completion(.success(resultList))
+                          case .failure(let error):
+                            completion(.failure(error))
+                          }
+                        }
+                      }
+                    case .failure(let error):
+                      completion(.failure(error))
+                    }
+                  }
+                case .failure(let error):
+                  completion(.failure(error))
+                }
+              }
+            } else {
+              completion(.success(movieList))
             }
+          case .failure(let error):
+            completion(.failure(error))
+          }
         }
     }
     

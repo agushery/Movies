@@ -26,18 +26,14 @@ final class MovieMapper {
     ) -> [MovieModel] {
         return movieResponse.map { result in
             return MovieModel(
-                adult: result.adult,
                 backdropPath: result.backdropPath,
-                genreIDs: result.genreIDs,
                 id: String(result.id),
-                originalLanguage: String(result.originalLanguage),
                 originalTitle: result.title,
                 overview: result.overview,
                 popularity: result.popularity,
                 posterPath: result.posterPath,
                 releaseDate: result.releaseDate,
                 title: result.title,
-                video: result.video,
                 voteAverage: result.voteAverage,
                 voteCount: result.voteCount
             )

@@ -10,16 +10,10 @@ import Foundation
 
 /// The `MovieModel` struct represents a popular movie to view
 struct MovieModel: Equatable, Identifiable, Hashable {
-    /// A Boolean indicating whether the movie is intended for adults.
-    let adult: Bool
     /// The path to the movie's backdrop image.
     let backdropPath: String?
-    /// An array of genre IDs for the movie.
-    let genreIDs: [Int]
     /// The ID of the movie.
     let id: String
-    /// The original language of the movie.
-    let originalLanguage: String
     /// The original title of the movie.
     let originalTitle: String
     /// A brief overview of the movie.
@@ -32,8 +26,6 @@ struct MovieModel: Equatable, Identifiable, Hashable {
     let releaseDate: String
     /// The title of the movie.
     let title: String
-    /// A Boolean indicating whether a video is available for the movie.
-    let video: Bool
     /// The average rating for the movie.
     let voteAverage: Double
     /// The number of votes for the movie.
@@ -42,11 +34,8 @@ struct MovieModel: Equatable, Identifiable, Hashable {
 
 extension MovieModel {
     static let dummyData: MovieModel = MovieModel(
-        adult: true,
         backdropPath: "",
-        genreIDs: [1],
         id: "",
-        originalLanguage: "",
         originalTitle: "title",
         overview: """
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
@@ -55,7 +44,6 @@ extension MovieModel {
         posterPath: "https://image.tmdb.org/t/p/w500/bxh5xCCW9Ynfg6EZJWUkc1zqTnr.jpg",
         releaseDate: "20200202",
         title: "title title title title title title",
-        video: true,
         voteAverage: 7.5,
         voteCount: 5)
 }

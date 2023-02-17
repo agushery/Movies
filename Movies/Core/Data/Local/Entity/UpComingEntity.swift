@@ -1,16 +1,15 @@
 //
-//  PopularMovieEntity.swift
+//  UpComingMovieEntity.swift
 //  Movies
 //
-//  Created by Agus Hery on 10/02/23.
+//  Created by Agus Hery on 17/02/23.
 //  Copyright © 2023 Agus Hery. All rights reserved.
 //
 
 import Foundation
 import RealmSwift
 
-class PopularMovieEntity: Object {
-    
+class UpComingMovieEntity: Object {
     /// The path of the movie's backdrop image
     @objc dynamic var backdropPath: String? = nil
     
@@ -46,11 +45,11 @@ class PopularMovieEntity: Object {
     }
 }
 
-extension PopularMovieEntity {
+extension UpComingMovieEntity {
     
-    static func toPopularEntity(from movies: [MovieResponse]) -> [PopularMovieEntity] {
+    static func toPopularEntity(from movies: [MovieResponse]) -> [UpComingMovieEntity] {
         return movies.map { result in
-            let entity = PopularMovieEntity()
+            let entity = UpComingMovieEntity()
             entity.id = String(result.id)
             entity.backdropPath = result.backdropPath
             entity.originalTitle = result.originalTitle
@@ -65,7 +64,7 @@ extension PopularMovieEntity {
         }
     }
     
-    static func toPopularMovieModel(from entity: [PopularMovieEntity]) -> [MovieModel] {
+    static func toPopularMovieModel(from entity: [UpComingMovieEntity]) -> [MovieModel] {
         return entity.map { result in
             return MovieModel(
                 backdropPath: result.backdropPath,

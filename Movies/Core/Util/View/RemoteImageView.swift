@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct RemoteImageView: View {
     
@@ -14,11 +15,13 @@ struct RemoteImageView: View {
     
     var body: some View {
         if let url = url {
-            AsyncImage(url: URL(string: API.baseIMGURL+url)) { image in
-                image.resizable()
-            } placeholder: {
-                ProgressView()
-            }
+            KFImage.url(URL(string: API.baseIMGURL+url))
+                .placeholder { _ in
+                    ProgressView().tint(.white)
+                }
+                .cacheMemoryOnly()
+                .fade(duration: 0.25)
+                .resizable()
         } else {
             Text("Not Found")
         }
