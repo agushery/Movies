@@ -23,7 +23,10 @@ struct PopularMovieViewCell: View {
             VStack(alignment: .leading, spacing: 5){
                 title
                 overView
-                rating
+                HStack {
+                    rating
+                    releaseDate
+                }
             }.frame(width: 200)
         }.padding(.leading, -40)
     }
@@ -70,6 +73,13 @@ extension PopularMovieViewCell {
         HStack {
             Image(systemName: "star")
             Text(String(format: "%.1f", data.voteAverage))
+        }
+    }
+    
+    private var releaseDate: some View {
+        HStack {
+            Image(systemName: "calendar")
+            Text(data.releaseDate)
         }
     }
     

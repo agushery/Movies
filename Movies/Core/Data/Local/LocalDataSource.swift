@@ -38,6 +38,7 @@ final class LocalDataSourceImpl: NSObject {
 }
 
 extension LocalDataSourceImpl: LocalDataSource {
+    
     func getUpComingMovies(
         result: @escaping (Result<[UpComingMovieEntity], DatabaseError>) -> Void
     ) {
@@ -92,7 +93,10 @@ extension LocalDataSourceImpl: LocalDataSource {
     }
     
     
-    func addPopularMovies(from movies: [PopularMovieEntity], result: @escaping (Result<Bool, DatabaseError>) -> Void) {
+    func addPopularMovies(
+        from movies: [PopularMovieEntity],
+        result: @escaping (Result<Bool, DatabaseError>) -> Void
+    ) {
         if let realm = realm {
             DispatchQueue.main.async {
                 do {
@@ -115,16 +119,16 @@ extension LocalDataSourceImpl: LocalDataSource {
 }
 
 extension Results {
-
-  func toArray<T>(ofType: T.Type) -> [T] {
-    var array = [T]()
-    for index in 0 ..< count {
-      if let result = self[index] as? T {
-        array.append(result)
-      }
+    
+    func toArray<T>(ofType: T.Type) -> [T] {
+        var array = [T]()
+        for index in 0 ..< count {
+            if let result = self[index] as? T {
+                array.append(result)
+            }
+        }
+        return array
     }
-    return array
-  }
-
+    
 }
 

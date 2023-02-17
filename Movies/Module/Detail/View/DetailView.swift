@@ -88,15 +88,16 @@ extension DetailView {
             VStack(alignment: .leading){
                 StrokeTextView(text: presenter.detailMovie.title, width: 1, color: .white)
                     .font(.system(.title2, design: .default, weight: .bold))
+                    .offset(x: 0, y: -20)
                 HStack (alignment: .center) {
                     Image(systemName: "star")
                     Text(String(format: "%.1f", presenter.detailMovie.voteAverage))
                     Divider()
                         .frame(height: 20)
-                    Image(systemName: "play.laptopcomputer")
-                    Text(String(presenter.detailMovie.popularity))
-                }.padding(.top, presenter.detailMovie.title.count > 15 ? -5 : 35)
-                HStack {
+                    Image(systemName: "calendar")
+                    Text(presenter.detailMovie.releaseDate)
+                }
+                HStack(spacing: 20){
                     ForEach(presenter.detailMovie.genres.prefix(2)) { genre in
                         Text(genre.name)
                             .bold()
@@ -114,7 +115,7 @@ extension DetailView {
         VStack(alignment: .leading, spacing: 10){
             Text("Trailers:")
                 .font(.system(.headline, design: .default, weight: .semibold))
-            ForEach(presenter.videosMovie.prefix(5), id: \.self) { trailer in
+            ForEach(presenter.videosMovie.prefix(3), id: \.self) { trailer in
                 if trailer.site == siteYoutube {
                     Button {
                         self.selectedTrailer = trailer
@@ -137,20 +138,18 @@ extension DetailView {
     }
     
     private var website: some View {
-        HStack(alignment: .center){
-            Text("Website:")
+        VStack(alignment: .leading){
+            Text("Website")
                 .font(.system(.headline, design: .default, weight: .semibold))
             Text(.init(presenter.detailMovie.homepage))
                 .font(.system(.caption, design: .default, weight: .regular))
-            Spacer()
-        }.padding(.horizontal)
-        
+        }.padding(.leading, -100)
     }
 }
 
 struct DetailView_Previews: PreviewProvider {
     static var previews: some View {
         let detailUseCase = Injection.init().provideDetail()
-        DetailView(presenter: DetailPresenter(detailUseCase: detailUseCase, idMovie: "505642"))
+        DetailView(presenter: DetailPresenter(detailUseCase: detailUseCase, idMovie: "5"))
     }
 }
