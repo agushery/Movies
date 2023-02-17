@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Alamofire
 
 protocol RemoteDataSource: AnyObject {
     func getPopularMovies(result: @escaping (Result<[MovieResponse], URLError>) -> Void)
@@ -34,22 +35,16 @@ extension RemoteDataSourceImpl: RemoteDataSource {
             return
         }
         
-        let task = URLSession.shared.dataTask(with: url) { data, response, error in
-            if error != nil {
-                result(.failure(.addressUnReseachable(url)))
-            } else if let data = data,
-                      let response = response as? HTTPURLResponse,
-                      response.statusCode == 200 {
-                let decoder = JSONDecoder()
-                do {
-                    let movies = try decoder.decode(MoviesResponse.self, from: data).results
-                    result(.success(movies))
-                } catch {
+        AF.request(url)
+            .validate()
+            .responseDecodable(of: MoviesResponse.self) { response in
+                switch response.result {
+                case .success(let value):
+                    result(.success(value.results))
+                case .failure:
                     result(.failure(.invalidResponse))
                 }
             }
-        }
-        task.resume()
     }
     
     func getUpcomingMovies(
@@ -60,22 +55,16 @@ extension RemoteDataSourceImpl: RemoteDataSource {
             return
         }
         
-        let task = URLSession.shared.dataTask(with: url) { data, response, error in
-            if error != nil {
-                result(.failure(.addressUnReseachable(url)))
-            } else if let data = data,
-                      let response = response as? HTTPURLResponse,
-                      response.statusCode == 200 {
-                let decoder = JSONDecoder()
-                do {
-                    let movies = try decoder.decode(MoviesResponse.self, from: data).results
-                    result(.success(movies))
-                } catch {
+        AF.request(url)
+            .validate()
+            .responseDecodable(of: MoviesResponse.self) { response in
+                switch response.result {
+                case .success(let value):
+                    result(.success(value.results))
+                case .failure:
                     result(.failure(.invalidResponse))
                 }
             }
-        }
-        task.resume()
     }
     
     func getDetailMovie(
@@ -87,22 +76,16 @@ extension RemoteDataSourceImpl: RemoteDataSource {
             return
         }
         
-        let task = URLSession.shared.dataTask(with: url) { data, response, error in
-            if error != nil {
-                result(.failure(.addressUnReseachable(url)))
-            } else if let data = data,
-                      let response = response as? HTTPURLResponse,
-                      response.statusCode == 200 {
-                let decoder = JSONDecoder()
-                do {
-                    let movies = try decoder.decode(DetailMovieResponse.self, from: data)
-                    result(.success(movies))
-                } catch {
+        AF.request(url)
+            .validate()
+            .responseDecodable(of: DetailMovieResponse.self) { response in
+                switch response.result {
+                case .success(let value):
+                    result(.success(value))
+                case .failure:
                     result(.failure(.invalidResponse))
                 }
             }
-        }
-        task.resume()
     }
     
     func getVideoMovie(
@@ -114,22 +97,16 @@ extension RemoteDataSourceImpl: RemoteDataSource {
             return
         }
         
-        let task = URLSession.shared.dataTask(with: url) { data, response, error in
-            if error != nil {
-                result(.failure(.addressUnReseachable(url)))
-            } else if let data = data,
-                 let response = response as? HTTPURLResponse,
-                 response.statusCode == 200 {
-                let decoder = JSONDecoder()
-                do {
-                    let videos = try decoder.decode(VideoResponse.self, from: data).results
-                    result(.success(videos))
-                } catch {
+        AF.request(url)
+            .validate()
+            .responseDecodable(of: VideoResponse.self) { response in
+                switch response.result {
+                case .success(let value):
+                    result(.success(value.results))
+                case .failure:
                     result(.failure(.invalidResponse))
                 }
             }
-        }
-        task.resume()
     }
     
     func searchMovies(
@@ -141,7 +118,6 @@ extension RemoteDataSourceImpl: RemoteDataSource {
             print("URL not found!")
             return
         }
-        print(url)
         let task = URLSession.shared.dataTask(with: url) { data, response, error in
             if error != nil {
                 result(.failure(.addressUnReseachable(url)))
@@ -156,7 +132,5 @@ extension RemoteDataSourceImpl: RemoteDataSource {
                     result(.failure(.invalidResponse))
                 }
             }
-        }
-        task.resume()
     }
 }
