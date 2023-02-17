@@ -132,5 +132,7 @@ extension RemoteDataSourceImpl: RemoteDataSource {
                     result(.failure(.invalidResponse))
                 }
             }
+        }
+        task.resume()
     }
 }
