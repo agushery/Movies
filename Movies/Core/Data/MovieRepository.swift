@@ -94,9 +94,9 @@ final class MovieRepository: NSObject {
 
 extension MovieRepository: MovieRepositoryProtocol {
     
-    // Returns an Observable containing a list of popular movies. If the list is not available locally, it is fetched from the remote data source.
-    // If the remote data source fails or returns an empty list, an empty list is returned.
-    // The list is transformed from the entity layer to the model layer before being returned.
+    /// Returns an Observable containing a list of popular movies. If the list is not available locally, it is fetched from the remote data source.
+    /// If the remote data source fails or returns an empty list, an empty list is returned.
+    /// The list is transformed from the entity layer to the model layer before being returned.
     func getPopularMovies() -> Observable<[MovieModel]> {
         return locale.getPopularMovies()
             .map { PopularMovieEntity.toPopularMovieModel(from: $0) }
