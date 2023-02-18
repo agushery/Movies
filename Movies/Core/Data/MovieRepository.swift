@@ -10,7 +10,7 @@ import Foundation
 import RxSwift
 
 /**
-A protocol that defines methods to retrieve movie data from different sources.
+    A protocol that defines methods to retrieve movie data from different sources.
 */
 protocol MovieRepositoryProtocol {
     
