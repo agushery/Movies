@@ -90,29 +90,7 @@ extension LocalDataSourceImpl: LocalDataSource {
             return Disposables.create()
         }
     }
-    
-    
-//    func addPopularMovies(
-//        from movies: [PopularMovieEntity],
-//        result: @escaping (Result<Bool, DatabaseError>) -> Void
-//    ) {
-//        if let realm = realm {
-//            DispatchQueue.main.async {
-//                do {
-//                    try realm.write {
-//                        for movie in movies {
-//                            realm.add(movie, update: .all)
-//                        }
-//                    }
-//                    result(.success(true))
-//                } catch {
-//                    result(.failure(.requestFailed))
-//                }
-//            }
-//        } else {
-//            result(.failure(.invalidInstance))
-//        }
-//    }
+
     
     func addPopularMovies(
         from movies: [PopularMovieEntity]
@@ -122,7 +100,7 @@ extension LocalDataSourceImpl: LocalDataSource {
                 do {
                     try realm.write({
                         for movie in movies {
-                            realm.add(movies, update: .all)
+                            realm.add(movie, update: .all)
                         }
                     })
                 } catch {
