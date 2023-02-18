@@ -10,7 +10,17 @@ import SafariServices
 import SwiftUI
 let siteYoutube: String = "YouTube"
 
+/**
+A SwiftUI view that wraps a SFSafariViewController to display a webpage.
 
+To use this view, create an instance and pass in a string URL to the url parameter. A SFSafariViewController will be created to display the webpage.
+
+* Parameter
+    -  url: The string URL to display in the SFSafariViewController.
+
+Note: If the URL is invalid or cannot be loaded, a prank URL will be loaded instead.
+
+*/
 struct SafariView: UIViewControllerRepresentable {
     
     let url: String

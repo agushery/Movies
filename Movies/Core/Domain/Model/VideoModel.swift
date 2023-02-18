@@ -8,31 +8,32 @@
 
 import Foundation
 
-/// The `VideoModel` struct represents Video Response to view
+/// The `VideoModel` struct represents a video response for display in the view.
 struct VideoModel: Hashable, Identifiable {
-    /// ISO 639-1 language code
+    /// The ISO 639-1 language code for the video.
     let iso_639_1: String
-    /// ISO 3166-1 country code
+    /// The ISO 3166-1 country code for the video.
     let iso_3166_1: String
-    /// Name of the video
+    /// The name of the video.
     let name: String
-    /// Key used to access the video
+    /// The key used to access the video.
     let key: String
-    /// Date and time the video was published
+    /// The date and time the video was published.
     let published_at: String
-    /// Site where the video is hosted
+    /// The site where the video is hosted.
     let site: String
-    /// Size of the video in pixels
+    /// The size of the video in pixels.
     let size: Int
-    /// Type of video (e.g. Trailer, Teaser)
+    /// The type of video, such as "Trailer" or "Teaser".
     let type: String
-    /// Indicates if the video is official or not
+    /// Indicates if the video is official or not.
     let official: Bool
-    /// Unique identifier for the video
+    /// The unique identifier for the video.
     let id: String
 }
 
 extension VideoModel {
+    /// Maps an array of `Video` objects to an array of `VideoModel` objects.
     static func mapVideoResponseToDomain(
         input videoResponse: [Video]
     ) -> [VideoModel]
@@ -55,6 +56,7 @@ extension VideoModel {
 }
 
 extension VideoModel {
+    /// A sample `VideoModel` object used for testing and development purposes.
     static let dummyData: VideoModel = VideoModel(
         iso_639_1: "",
         iso_3166_1: "",
@@ -65,5 +67,6 @@ extension VideoModel {
         size: 360,
         type: "Trailer",
         official: false,
-        id: "5a80bc1ac3a36818a7026cc8")
+        id: "5a80bc1ac3a36818a7026cc8"
+    )
 }

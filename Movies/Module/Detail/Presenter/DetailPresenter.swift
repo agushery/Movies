@@ -8,6 +8,9 @@
 
 import Foundation
 
+/**
+ *  `DetailPresenter` is an ObservableObject that provides the necessary data and business logic to be used in the `DetailView` for displaying details and videos of a movie.
+*/
 class DetailPresenter: ObservableObject {
     
     private let detailUseCase: DetailUseCase
@@ -24,6 +27,10 @@ class DetailPresenter: ObservableObject {
         getVideosMovie()
     }
     
+    /**
+     Calls the `getDetailMovie` method of the `DetailUseCase` object to fetch the detailed information of the movie for the given id.
+     Updates the `detailMovie` and `loadingState` properties when the data is fetched successfully.
+     */
     func getDetailMovie() {
         detailUseCase.getDetailMovie(completion: { result in
             switch result {
@@ -38,6 +45,10 @@ class DetailPresenter: ObservableObject {
         }, idMovie: self.idMovie)
     }
     
+    /**
+     Calls the `getVideosMovie` method of the `DetailUseCase` object to fetch the videos of the movie for the given id.
+     Updates the `videosMovie` and `loadingState` properties when the data is fetched successfully.
+     */
     func getVideosMovie() {
         detailUseCase.getVideosMovie(completion: { result in
             switch result {

@@ -8,12 +8,17 @@
 
 import SwiftUI
 
+
+/// A SwiftUI view that displays the detailed information of a selected movie.
 struct DetailView: View {
     
+    /// An `ObservedObject` that holds the `DetailPresenter` for this view. The `DetailPresenter` provides the necessary data for the view to display.
     @ObservedObject var presenter: DetailPresenter
     
+    /// A `State` variable that holds the selected trailer for the movie.
     @State private var selectedTrailer: VideoModel?
     
+    /// The body of the `DetailView`.
     var body: some View {
         ZStack {
             if presenter.loadingState {
@@ -42,8 +47,9 @@ struct DetailView: View {
     }
 }
 
+
 extension DetailView {
-    
+    /// A private computed property that returns a `VStack` containing the poster image for the movie. If the poster path is not found, it displays a "Not Found" message.
     private var posterMovie: some View {
         VStack {
             if let posterPath = presenter.detailMovie.posterPath {
@@ -63,6 +69,7 @@ extension DetailView {
         }
     }
     
+    /// A private computed property that returns a `VStack` containing the backdrop image for the movie. If the backdrop path is not found, it displays a black rectangle with a "Not Found" message.
     private var backdropImage: some View {
         VStack {
             if let backdrop = presenter.detailMovie.backdropPath {
@@ -81,6 +88,7 @@ extension DetailView {
         }
     }
     
+    /// A private computed property that returns a `HStack` containing the top card of the view. It displays the poster image, title, rating, release date, and genres for the movie.
     private var topCard: some View {
         HStack (alignment: .center, spacing: 10) {
             posterMovie
@@ -111,6 +119,7 @@ extension DetailView {
         .padding(.horizontal)
     }
     
+    /// A private computed property that returns a `VStack` containing the trailers for the movie. It displays the name of the trailer and a play button. When the play button is tapped, it opens the trailer in a `SafariView`.
     private var trailers: some View {
         VStack(alignment: .leading, spacing: 10){
             Text("Trailers:")
@@ -137,6 +146,7 @@ extension DetailView {
         }
     }
     
+    /// A private computed property that returns a `VStack` containing the website for the movie.
     private var website: some View {
         VStack(alignment: .leading){
             Text("Website")

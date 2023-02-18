@@ -8,11 +8,25 @@
 
 import SwiftUI
 
-struct StrokeTextView: View {
-    let text: String
-    let width: CGFloat
-    let color: Color
+import SwiftUI
 
+/**Creates a new `StrokeTextView` with the specified text, stroke width, and stroke color.
+
+* Parameters:
+*    text: The text to display.
+*   width: The width of the stroke around the text.
+*   color: The color of the stroke around the text.
+*/
+struct StrokeTextView: View {
+    /// The text to display.
+    let text: String
+    
+    /// The width of the stroke around the text.
+    let width: CGFloat
+    
+    /// The color of the stroke around the text.
+    let color: Color
+    
     var body: some View {
         ZStack{
             ZStack{
@@ -29,6 +43,7 @@ struct StrokeTextView: View {
         }
     }
 }
+
 
 struct StrokeTextView_Previews: PreviewProvider {
     static var previews: some View {

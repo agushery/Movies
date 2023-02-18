@@ -8,8 +8,17 @@
 
 import SwiftUI
 
+/**
+ A view that displays the details of a movie, including the movie's original title and description.
+ 
+ To use this view, create an instance and pass in a DetailPresenter object, which is responsible for providing the movie's details to the view.
+ 
+ * Parameter
+    - presenter: The DetailPresenter object that provides the movie's details to the view.
+ */
 struct DecriptionDetailView: View {
     
+    /// The DetailPresenter object that provides the movie's details to the view.
     @ObservedObject var presenter: DetailPresenter
     
     var body: some View {
@@ -24,6 +33,7 @@ struct DecriptionDetailView: View {
         .padding(.horizontal)
     }
 }
+
 
 struct DecriptionDetailView_Previews: PreviewProvider {
     static var previews: some View {

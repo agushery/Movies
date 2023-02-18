@@ -33,6 +33,7 @@ struct MovieModel: Equatable, Identifiable, Hashable {
 }
 
 extension MovieModel {
+    /// A static constant `MovieModel` object for dummy data purposes.
     static let dummyData: MovieModel = MovieModel(
         backdropPath: "",
         id: "",
