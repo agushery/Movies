@@ -7,10 +7,11 @@
 //
 
 import Foundation
+import RxSwift
 
 protocol HomeUseCase {
     
-    func getPopularMovies(completion: @escaping (Result<[MovieModel], Error>) -> Void)
+    func getPopularMovies() -> Observable<[MovieModel]>
     
     func getUpcomingMovies(completion: @escaping (Result<[MovieModel], Error>) -> Void)
     
@@ -25,12 +26,8 @@ class HomeInteractor: HomeUseCase {
         self.repository = repository
     }
     
-    func getPopularMovies(
-        completion: @escaping (Result<[MovieModel], Error>) -> Void
-    ) {
-        repository.getPopularMovies { result in
-            completion(result)
-        }
+    func getPopularMovies() -> Observable<[MovieModel]> {
+        return repository.getPopularMovies()
     }
     
     func getUpcomingMovies(

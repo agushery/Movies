@@ -7,10 +7,11 @@
 //
 
 import Foundation
+import RxSwift
 
 protocol MovieRepositoryProtocol {
     
-    func getPopularMovies(completion: @escaping (Result<[MovieModel], Error>) -> Void)
+    func getPopularMovies() -> Observable<[MovieModel]>
     
     func getUpcomingMovies(completion: @escaping (Result<[MovieModel], Error>) -> Void)
     
@@ -40,47 +41,19 @@ final class MovieRepository: NSObject {
 
 extension MovieRepository: MovieRepositoryProtocol {
     
-    func getPopularMovies(
-        completion: @escaping (Result<[MovieModel], Error>) -> Void
-    ) {
-        self.locale.getPopularMovies { localeResponses in
-          switch localeResponses {
-          case .success(let movieEntity):
-              let movieList = PopularMovieEntity.toPopularMovieModel(from: movieEntity)
-            if movieList.isEmpty {
-              self.remote.getPopularMovies { remoteResponses in
-                switch remoteResponses {
-                case .success(let movieResponses):
-                    let movieEntity = PopularMovieEntity.toPopularEntity(from: movieResponses)
-                  self.locale.addPopularMovies(from: movieEntity) { addState in
-                    switch addState {
-                    case .success(let resultFromAdd):
-                      if resultFromAdd {
-                        self.locale.getPopularMovies { localeResponses in
-                          switch localeResponses {
-                          case .success(let movieEntity):
-                              let resultList = PopularMovieEntity.toPopularMovieModel(from: movieEntity)
-                            completion(.success(resultList))
-                          case .failure(let error):
-                            completion(.failure(error))
-                          }
-                        }
-                      }
-                    case .failure(let error):
-                      completion(.failure(error))
-                    }
-                  }
-                case .failure(let error):
-                  completion(.failure(error))
-                }
-              }
-            } else {
-              completion(.success(movieList))
-            }
-          case .failure(let error):
-            completion(.failure(error))
-          }
-        }
+    func getPopularMovies() -> Observable<[MovieModel]> {
+        return locale.getPopularMovies()
+            .map { PopularMovieEntity.toPopularMovieModel(from: $0) }
+            .filter { !$0.isEmpty }
+            .ifEmpty(switchTo: self.remote.getPopularMovies()
+                .map { PopularMovieEntity.toPopularEntity(from: $0) }
+                .flatMap { self.locale.addPopularMovies(from: $0) }
+                .filter { $0 }
+                .flatMap({ _ in
+                    self.locale.getPopularMovies()
+                        .map { PopularMovieEntity.toPopularMovieModel(from: $0) }
+                })
+            )
     }
     
     func getUpcomingMovies(

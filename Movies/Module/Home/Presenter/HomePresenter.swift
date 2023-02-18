@@ -8,11 +8,13 @@
 
 import Foundation
 import SwiftUI
+import RxSwift
 
 class HomePresenter: ObservableObject {
     
     private var homeUseCase: HomeUseCase
     private var router = HomeRouter()
+    private let disposeBag = DisposeBag()
     
     @Published var popularMovies: [MovieModel] = []
     @Published var upcomingMovies: [MovieModel] = []
@@ -33,20 +35,17 @@ class HomePresenter: ObservableObject {
 extension HomePresenter {
     func getPopularMovies() {
         loadingState = true
-        homeUseCase.getPopularMovies { result in
-            switch result {
-            case .success(let movieResults):
-                DispatchQueue.main.async {
-                    self.loadingState = false
-                    self.popularMovies = movieResults
-                }
-            case .failure(let error):
-                DispatchQueue.main.async {
-                    self.loadingState = false
-                    self.errorMessage = error.localizedDescription
-                }
-            }
-        }
+        homeUseCase.getPopularMovies()
+            .observe(on: MainScheduler.instance)
+            .subscribe { result in
+                self.popularMovies = result
+            } onError: { error in
+                print(error.localizedDescription)
+                self.errorMessage = error.localizedDescription
+            } onCompleted: {
+                self.loadingState = false
+            }.disposed(by: disposeBag)
+
     }
 }
 

@@ -8,13 +8,13 @@
 
 import Foundation
 import RealmSwift
+import RxSwift
 
 protocol LocalDataSource: AnyObject {
     
-    func getPopularMovies(result: @escaping (Result<[PopularMovieEntity], DatabaseError>) -> Void)
+    func getPopularMovies() -> Observable<[PopularMovieEntity]>
     
-    func addPopularMovies(from movies: [PopularMovieEntity],
-                          result: @escaping (Result<Bool, DatabaseError>) -> Void)
+    func addPopularMovies(from movies: [PopularMovieEntity]) -> Observable<Bool>
     
     func getUpComingMovies(result: @escaping (Result<[UpComingMovieEntity], DatabaseError>) -> Void)
     
@@ -76,42 +76,62 @@ extension LocalDataSourceImpl: LocalDataSource {
         }
     }
     
-    
-    func getPopularMovies(
-        result: @escaping (Result<[PopularMovieEntity], DatabaseError>) -> Void
-    ) {
-        if let realm = realm {
-            DispatchQueue.main.async {
+    func getPopularMovies() -> Observable<[PopularMovieEntity]> {
+        return Observable<[PopularMovieEntity]>.create { observer in
+            if let realm = self.realm {
                 let movies: Results<PopularMovieEntity> = {
                     realm.objects(PopularMovieEntity.self)
                 }()
-                result(.success(movies.toArray(ofType: PopularMovieEntity.self)))
+                observer.onNext(movies.toArray(ofType: PopularMovieEntity.self))
+                observer.onCompleted()
+            } else {
+                observer.onError(DatabaseError.invalidInstance)
             }
-        } else {
-            result(.failure(.invalidInstance))
+            return Disposables.create()
         }
     }
     
     
+//    func addPopularMovies(
+//        from movies: [PopularMovieEntity],
+//        result: @escaping (Result<Bool, DatabaseError>) -> Void
+//    ) {
+//        if let realm = realm {
+//            DispatchQueue.main.async {
+//                do {
+//                    try realm.write {
+//                        for movie in movies {
+//                            realm.add(movie, update: .all)
+//                        }
+//                    }
+//                    result(.success(true))
+//                } catch {
+//                    result(.failure(.requestFailed))
+//                }
+//            }
+//        } else {
+//            result(.failure(.invalidInstance))
+//        }
+//    }
+    
     func addPopularMovies(
-        from movies: [PopularMovieEntity],
-        result: @escaping (Result<Bool, DatabaseError>) -> Void
-    ) {
-        if let realm = realm {
-            DispatchQueue.main.async {
+        from movies: [PopularMovieEntity]
+    ) -> Observable<Bool> {
+        return Observable<Bool>.create { observer in
+            if let realm = self.realm {
                 do {
-                    try realm.write {
+                    try realm.write({
                         for movie in movies {
-                            realm.add(movie, update: .all)
+                            realm.add(movies, update: .all)
                         }
-                    }
-                    result(.success(true))
+                    })
                 } catch {
-                    result(.failure(.requestFailed))
+                    observer.onError(DatabaseError.requestFailed)
                 }
+            } else {
+                observer.onError(DatabaseError.invalidInstance)
             }
-        } else {
-            result(.failure(.invalidInstance))
+            return Disposables.create()
         }
     }
     

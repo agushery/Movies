@@ -25,7 +25,7 @@ struct DetailView: View {
                 ScrollView {
                     backdropImage
                     topCard
-                    VStack(spacing: 10){
+                    VStack(alignment: .leading ,spacing: 10){
                         DecriptionDetailView(presenter: presenter)
                         if !presenter.videosMovie.isEmpty {
                             trailers
@@ -143,7 +143,7 @@ extension DetailView {
                 .font(.system(.headline, design: .default, weight: .semibold))
             Text(.init(presenter.detailMovie.homepage))
                 .font(.system(.caption, design: .default, weight: .regular))
-        }.padding(.leading, -100)
+        }.padding(.horizontal)
     }
 }
 

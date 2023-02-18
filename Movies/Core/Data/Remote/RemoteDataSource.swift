@@ -8,9 +8,10 @@
 
 import Foundation
 import Alamofire
+import RxSwift
 
 protocol RemoteDataSource: AnyObject {
-    func getPopularMovies(result: @escaping (Result<[MovieResponse], URLError>) -> Void)
+    func getPopularMovies() -> Observable<[MovieResponse]>
     func getUpcomingMovies(result: @escaping (Result<[MovieResponse], URLError>) -> Void)
     func getDetailMovie(result: @escaping (Result<DetailMovieResponse, URLError>) -> Void, idMovie: String)
     func getVideoMovie(result: @escaping (Result<[Video], URLError>) -> Void, idMovie: String )
@@ -27,25 +28,25 @@ final class RemoteDataSourceImpl: NSObject {
 
 extension RemoteDataSourceImpl: RemoteDataSource {
     
-    func getPopularMovies(
-        result: @escaping (Result<[MovieResponse], URLError>) -> Void
-    ){
-        guard let url = URL(string: EndPoints.Gets.popular.url) else {
-            print("URL not found!")
-            return
-        }
-        
-        AF.request(url)
-            .validate()
-            .responseDecodable(of: MoviesResponse.self) { response in
-                switch response.result {
-                case .success(let value):
-                    result(.success(value.results))
-                case .failure:
-                    result(.failure(.invalidResponse))
-                }
+    func getPopularMovies() -> Observable<[MovieResponse]> {
+        return Observable<[MovieResponse]>.create { observer in
+            if let url = URL(string: EndPoints.Gets.popular.url) {
+                AF.request(url)
+                    .validate()
+                    .responseDecodable(of: MoviesResponse.self) { response in
+                        switch response.result {
+                        case .success(let value):
+                            observer.onNext(value.results)
+                            observer.onCompleted()
+                        case .failure(let error):
+                            observer.onError(error)
+                        }
+                    }
             }
+            return Disposables.create()
+        }
     }
+
     
     func getUpcomingMovies(
         result: @escaping (Result<[MovieResponse], URLError>) -> Void
