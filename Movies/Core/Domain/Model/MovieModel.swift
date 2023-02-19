@@ -35,16 +35,16 @@ struct MovieModel: Equatable, Identifiable, Hashable {
 extension MovieModel {
     /// A static constant `MovieModel` object for dummy data purposes.
     static let dummyData: MovieModel = MovieModel(
-        backdropPath: "",
-        id: "",
-        originalTitle: "title",
+        backdropPath: "/xDMIl84Qo5Tsu62c9DGWhmPI67A.jpg",
+        id: "529892",
+        originalTitle: "Black Panther: Wakanda Forever",
         overview: """
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+        Queen Ramonda, Shuri, M’Baku, Okoye and the Dora Milaje fight to protect their nation from intervening world powers in the wake of King T’Challa’s death.  As the Wakandans strive to embrace their next chapter, the heroes must band together with the help of War Dog Nakia and Everett Ross and forge a new path for the kingdom of Wakanda.
         """,
-        popularity: 100,
-        posterPath: "https://image.tmdb.org/t/p/w500/bxh5xCCW9Ynfg6EZJWUkc1zqTnr.jpg",
-        releaseDate: "20200202",
-        title: "title title title title title title",
+        popularity: 4429.317,
+        posterPath: "https://image.tmdb.org/t/p/w500/sv1xJUazXeYqALzczSZ3O6nkH75.jpg",
+        releaseDate: "2022-11-09",
+        title: "Black Panther: Wakanda Forever",
         voteAverage: 7.5,
-        voteCount: 5)
+        voteCount: 3245)
 }
