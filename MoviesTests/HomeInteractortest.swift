@@ -119,7 +119,7 @@ final class HomeInteractorTests: XCTestCase {
         repositoryMock.searchMoviesCompletionReturnValue = .success(expectedMovies)
         
         let expectation = self.expectation(description: "Completion block called")
-        var result: [MovieModel]?
+        var result: [MovieModel]? = [MovieModel.dummyData]
         interactor.searchMovies(completion: { response in
             switch response {
             case .success(let movies):
