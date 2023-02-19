@@ -10,6 +10,10 @@
 		65305D8D29A1D47100D5B2FE /* HomeInteractortest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65305D8C29A1D47100D5B2FE /* HomeInteractortest.swift */; };
 		65305D9729A1EC4E00D5B2FE /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 65305D9629A1EC4E00D5B2FE /* Realm */; };
 		65305D9929A1EC5100D5B2FE /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 65305D9829A1EC5100D5B2FE /* RealmSwift */; };
+		65305D9D29A1F47300D5B2FE /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 65305D9C29A1F47300D5B2FE /* RxSwift */; };
+		65305D9F29A1F47800D5B2FE /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 65305D9E29A1F47800D5B2FE /* RxCocoa */; };
+		65305DA129A1F47C00D5B2FE /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 65305DA029A1F47C00D5B2FE /* Kingfisher */; };
+		65305DA329A1F48000D5B2FE /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 65305DA229A1F48000D5B2FE /* Alamofire */; };
 		653F5BCE29993F5000701A2E /* DetailPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 653F5BCD29993F5000701A2E /* DetailPresenter.swift */; };
 		653F5BD129993F6600701A2E /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 653F5BD029993F6600701A2E /* DetailView.swift */; };
 		653F5BD32999474300701A2E /* JSONNull+Extention.swift in Sources */ = {isa = PBXBuildFile; fileRef = 653F5BD22999474300701A2E /* JSONNull+Extention.swift */; };
@@ -113,8 +117,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				65305D9D29A1F47300D5B2FE /* RxSwift in Frameworks */,
 				65305D9929A1EC5100D5B2FE /* RealmSwift in Frameworks */,
+				65305D9F29A1F47800D5B2FE /* RxCocoa in Frameworks */,
+				65305DA329A1F48000D5B2FE /* Alamofire in Frameworks */,
 				65305D9729A1EC4E00D5B2FE /* Realm in Frameworks */,
+				65305DA129A1F47C00D5B2FE /* Kingfisher in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -456,6 +464,10 @@
 			packageProductDependencies = (
 				65305D9629A1EC4E00D5B2FE /* Realm */,
 				65305D9829A1EC5100D5B2FE /* RealmSwift */,
+				65305D9C29A1F47300D5B2FE /* RxSwift */,
+				65305D9E29A1F47800D5B2FE /* RxCocoa */,
+				65305DA029A1F47C00D5B2FE /* Kingfisher */,
+				65305DA229A1F48000D5B2FE /* Alamofire */,
 			);
 			productName = MoviesTests;
 			productReference = 65305D8A29A1D47100D5B2FE /* MoviesTests.xctest */;
@@ -899,6 +911,26 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 656594232995EB1A0028AEFA /* XCRemoteSwiftPackageReference "realm-swift" */;
 			productName = RealmSwift;
+		};
+		65305D9C29A1F47300D5B2FE /* RxSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 656594282995EB590028AEFA /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxSwift;
+		};
+		65305D9E29A1F47800D5B2FE /* RxCocoa */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 656594282995EB590028AEFA /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxCocoa;
+		};
+		65305DA029A1F47C00D5B2FE /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 65DB1C5E299F385800AA92DA /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
+		65305DA229A1F48000D5B2FE /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 65DB1C61299F7E9600AA92DA /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
 		};
 		656594242995EB1A0028AEFA /* Realm */ = {
 			isa = XCSwiftPackageProductDependency;
