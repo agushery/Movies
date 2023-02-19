@@ -3,7 +3,6 @@ workflows:
     name: iOS debug # workflow name
     environment:
       xcode: latest
-      cocoapods: default
       vars:
           XCODE_PROJECT: "Movies.xcodeproj" # Isikan nama project Anda.
           XCODE_SCHEME: "Movies" # Isikan nama scheme project Anda.
