@@ -10,6 +10,7 @@ import SwiftUI
 @main
 struct MoviesApp: App {
     
+    @UIApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
     let homePresenter = HomePresenter(homeUseCase: Injection.init().provideHome())
     
     var body: some Scene {
